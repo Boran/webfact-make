@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the webfactp installation profile.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ *
+ * @see system_install()
+ */
+function webfactp_install() {
+  include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
+  standard_install();
+
+  // Default "Basic page" to not be promoted and have comments disabled.
+  #variable_set('node_options_page', array('status'));
+  #variable_set('comment_page', COMMENT_NODE_HIDDEN);
+
+  // Don't display date and author information for "Basic page" nodes by default.
+  #variable_set('node_submitted_page', FALSE);
+
+  // Allow visitor account creation with administrative approval.
+  #variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+}
+ 
+?>

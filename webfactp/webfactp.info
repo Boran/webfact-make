@@ -1,0 +1,65 @@
+name = webfactp
+description = Webfactory install profile
+version = VERSION
+core = 7.x
+
+dependencies[] = block
+dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = toolbar
+dependencies[] = overlay
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = rdf
+
+;dependencies[] = field
+
+; contrib
+;dependencies[] = features
+;dependencies[] = variable
+;dependencies[] = field_group
+;dependencies[] = entity_token
+;dependencies[] = date
+;;dependencies[] = date_views
+;dependencies[] = views_ui
+;dependencies[] = token
+;dependencies[] = advanced_help
+;dependencies[] = contact
+;dependencies[] = jquery_update
+;dependencies[] = field_default_token
+;dependencies[] = devel
+
+;dependencies[] = clone
+;dependencies[] = node_export
+;dependencies[] = uuid
+;dependencies[] = adminimal_admin_menu
+;dependencies[] = backup_migrate
+
+;dependencies[] = dragndrop_upload
+;dependencies[] = entity
+;dependencies[] = rules
+;dependencies[] = rules_scheduler
+;dependencies[] = rules_admin
+;dependencies[] = strongarm
+
+; custom
+; Custom
+;dependencies[] = webfact
+
+; Features
+;dependencies[] = webfact_content_types
+;dependencies[] = theme_settings
+
