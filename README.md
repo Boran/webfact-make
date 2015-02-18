@@ -1,4 +1,4 @@
-Automation of a Webfactory build
+Automation for building a the webfactory UI
 
 Install on a bse boran/druapl dcoker container:
 ----------------------------------------------
@@ -34,3 +34,5 @@ Later:
  'Attempt to create field name <em class="placeholder">field_image</em> which already exists and is       [error]
 active.' in /var/www/html/modules/field/field.crud.inc:85
 
+
+Early days yet..
