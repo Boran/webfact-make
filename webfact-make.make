@@ -21,8 +21,12 @@ projects[drupal][version] = 7.x
 ; Profiles
 projects[webfactp][type] = "profile"
 projects[webfactp][subdir] = ""
-projects[webfactp][download][type] = "file"
-projects[webfactp][download][url] = "webfactp.tgz"
+;projects[webfactp][download][type] = "file"
+;projects[webfactp][download][url] = "webfactp.tgz"
+; a bit recursive: we get outselves :-)
+projects[webfactp][download][type] = "git"
+projects[webfactp][download][url] = "git://github.com/Boran/webfact-make.git"
+
 
 ; Modules
 ; --------

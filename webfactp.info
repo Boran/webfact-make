@@ -1,7 +1,7 @@
 name = webfactp
 description = Webfactory install profile
 version = 7.x-0.01
-exclusive = TRUE
+;exclusive = TRUE
 core = 7.x
 
 files[] = webfactp.profile
