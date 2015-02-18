@@ -10,7 +10,7 @@ api = 2
 ; alternative core projects like Pressflow. Note that makefiles included with
 ; install profiles *should not* include a core project.
 
-; Either specific or dev version
+; Either latest 7, specific or dev version
 projects[drupal][version] = 7.x
 ;projects[drupal][version] = 7.22
 ;projects[] = drupal
@@ -32,8 +32,12 @@ projects[features][type] = "module"
 projects[features][subdir] = "contrib"
 projects[advanced_help][type] = "module"
 projects[advanced_help][subdir] = "contrib"
-projects[jquery_update][type] = "module"
-projects[jquery_update][subdir] = "contrib"
+projects[entity][type] = "module"
+projects[entity][subdir] = "contrib"
+projects[entityreference][type] = "module"
+projects[entityreference][subdir] = "contrib"
+;projects[field_image][type] = "module"
+;projects[field_image][subdir] = "contrib"
 projects[field_default_token][type] = "module"
 projects[field_default_token][subdir] = "contrib"
 
@@ -41,22 +45,19 @@ projects[ctools][type] = "module"
 projects[ctools][subdir] = "contrib"
 projects[devel][type] = "module"
 projects[devel][subdir] = "contrib"
+projects[token][type] = "module"
+projects[token][subdir] = "contrib"
+
 ;projects[link][type] = "module"
 ;projects[link][subdir] = "contrib"
 ;projects[i18n][type] = "module"
 ;projects[i18n][subdir] = "contrib"
 ;projects[backup_migrate][type] = "module"
 ;projects[backup_migrate][subdir] = "contrib"
-projects[entity][type] = "module"
-projects[entity][subdir] = "contrib"
-projects[token][type] = "module"
-projects[token][subdir] = "contrib"
-;projects[entity_token][type] = "module"
-;projects[entity_token][subdir] = "contrib"
-;projects[field_default_token][type] = "module"
-;projects[field_default_token][subdir] = "contrib"
-;projects[entityreference][type] = "module"
-;projects[entityreference][subdir] = "contrib"
+
+projects[jquery_update][type] = "module"
+projects[jquery_update][subdir] = "contrib"
+
 projects[libraries][type] = "module"
 projects[libraries][subdir] = "contrib"
 
@@ -78,12 +79,14 @@ projects[views][subdir] = "contrib"
 ;projects[rules][subdir] = "contrib"
 projects[variable][type] = "module"
 projects[variable][subdir] = "contrib"
+projects[strongarm][type] = "module"
+projects[strongarm][subdir] = "contrib"
 projects[date][type] = "module"
 projects[date][subdir] = "contrib"
 projects[field_group][type] = "module"
 projects[field_group][subdir] = "contrib"
 
-; to ebale template sharing/copying
+; to enable template sharing/copying
 ;projects[uuid][type] = "module"
 ;projects[uuid][subdir] = "contrib"
 ;projects[clone][type] = "module"
@@ -101,17 +104,22 @@ projects[webfact][subdir] = "custom"
 projects[webfact][download][type] = "git"
 projects[webfact][download][url] = "git://github.com/Boran/webfact.git"
 
+projects[webfact_content_types][type] = "module"
+projects[webfact_content_types][subdir] = "custom"
+projects[webfact_content_types][download][type] = "git"
+projects[webfact_content_types][download][url] = "git://github.com/Boran/webfact_content_types.git"
 
-;Theme helpers
-; --------
-;projects[views_bootstrap][type] = "module"
-;projects[views_bootstrap][subdir] = "contrib"
 
 ; Themes
 ; --------
 projects[bootstrap][version] = 3.0
 projects[bootstrap][type] = "theme"
 projects[bootstrap][subdir] = "contrib"
+
+;Theme helpers
+; --------
+projects[views_bootstrap][type] = "module"
+projects[views_bootstrap][subdir] = "contrib"
 
 ; Libraries
 ; ---------

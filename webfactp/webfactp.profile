@@ -8,6 +8,7 @@
   #  'run' => INSTALL_TASK_RUN_IF_REACHED,
   #  'function' => 'webfactb_set_theme',
   #);
+#  return($task);
 #}
 
 /*
@@ -15,7 +16,7 @@ function webfactp_set_theme() {
   // Any themes without keys here will get numeric keys and so will be enabled,
   // but not placed into variables.
   $enable = array(
-    'theme_default' => 'iexplore',
+    'theme_default' => 'bootstrap',
     'admin_theme' => 'seven',
     //'zen'
   );
