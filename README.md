@@ -1,4 +1,4 @@
-webfact-make: Automation for building a Webfactory UI
+Webfact-make: Automation for building a Webfactory UI
 
 The Webfactory provides a UI to interface to the Docker API, allowing operations on containers/images. It is opinionated aiming to streamline dev and operations for Drupal websites. See also https://github.com/Boran/webfact
 
@@ -8,7 +8,7 @@ Installation: quickie using boran/drupal
 ----------------------------------------
 We assume you have docker installed and know how to use it.
 
-Setup a new container based on the boran/drupal image. The container called webfact points port 8000 on the docker host to it. It also makes the docker socket available in the container.
+Setup a new container based on the boran/drupal image. The container called webfact points port 8020 on the docker host to it. It also makes the docker socket available in the container.
 ```
 # grab the latest image
 docker pull boran/drupal
@@ -31,13 +31,11 @@ docker logs -f $name
 
 Installation done: go to the website page and log as admin/admin and see the configuration section below.
 
-To do: there are some open issues, see below.
-
 
 Installation: step by step
 ---------------------------
-Lets install steps by step to better understand (or if the quickie section above did not work for you).
-First install a boran/drupal docker container.  This will setup vanilla drupal and point port 8000 on the docker host to it. It also makes the docker socket available in the container.
+Lets install step by step to better understand (or if the quickie section above did not work for you).
+First install a boran/drupal docker container.  This will setup vanilla drupal and point port 8020 on the docker host to it. It also makes the docker socket available in the container.
 ```
 # grab the latest image
 docker pull boran/drupal
@@ -47,10 +45,10 @@ name=webfact
 domain=$name.example.ch
 email=bob@example.ch
 image="boran/drupal"
-docker run -td -p 8000:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" --restart=always --hostname $domain --name $name $image
+docker run -td -p 8020:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" --restart=always --hostname $domain --name $name $image
 ```
 
-Now connect into the container (via nsenter or docker exec), remove any previous DB or code. You could also start from this step if not using the boran/drupal container.
+Now connect into the container (via "docker exec -it webfact bash"), remove any previous DB or code. You could also start from this step if not using the boran/drupal container.
 ```
 \rm -rf /var/www/html
 echo "drop database drupal" |mysql
@@ -64,7 +62,7 @@ drush make https://raw.githubusercontent.com/Boran/webfact-make/master/webfact-m
 
 Create directories
 ```
-mkdir -p  /var/www/html/sites/default/files /var/www/html/sites/all/libraries/composer /var/lib/drupal-private
+mkdir -p /var/www/html/sites/default/files /var/www/html/sites/all/libraries/composer /var/lib/drupal-private
 chown -R www-data /var/www/html/sites/default /var/www/html/sites/all /var/lib/drupal-private
 ```
 
@@ -90,11 +88,12 @@ Installation done: go to the website page and log as admin/admin and see the con
 
 TO DO
 -----
+Automate:
 * Add default term: category
   * admin/structure/taxonomy/category: add 'test' and 'production'
   * admin/structure/types/manage/website/fields: set default template+category
-*  admin/structure/block : disable the search blocks
-* Full automate stuff from the install profile, rather than DRUPAL_FINAL_CMD
+* admin/structure/block : disable the search blocks
+* Fully automate stuff from the install profile, rather than DRUPAL_FINAL_CMD (this will be needed for CI).
   * composer
     (cd /var/www/html; drush -y composer-manager install)
   * link theme tpl
@@ -136,6 +135,6 @@ Optional:
 
 Using
 -----
-Todo: add a walkthogh on create templates and websites and operations on websites.
+Todo: add a walkthough on create templates and websites and operations on websites.
 
 
