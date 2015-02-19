@@ -97,8 +97,8 @@ Automate:
   * composer
     (cd /var/www/html; drush -y composer-manager install)
   * link theme tpl
-low prio:
-* enable page caching
+* When a container is empty:
+  Trying to get property of non-object in WebfactController->load_meta() (line 226 of /var/www/html/sites/all/modules/custom/webfact/controller.php
 
 Later:
 * manually: enable feature
