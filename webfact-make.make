@@ -98,6 +98,11 @@ projects[field_group][subdir] = "contrib"
 ;projects[node_export][type] = "module"
 ;projects[node_export][subdir] = "contrib"
 
+; how to install a drush extension?
+;projects[composer][type] = "module"
+;projects[composer][download][type] = "git"
+;projects[composer][download][branch] = "8.x-1.x"
+;projects[composer][download][url] = "http://git.drupal.org/project/composer.git"
 projects[composer_manager][type] = "module"
 projects[composer_manager][subdir] = "contrib"
 
@@ -106,11 +111,13 @@ projects[composer_manager][subdir] = "contrib"
 projects[webfact][type] = "module"
 projects[webfact][subdir] = "custom"
 projects[webfact][download][type] = "git"
+projects[webfact][download][working-copy] = "true"
 projects[webfact][download][url] = "git://github.com/Boran/webfact.git"
 
 projects[webfact_content_types][type] = "module"
 projects[webfact_content_types][subdir] = "custom"
 projects[webfact_content_types][download][type] = "git"
+projects[webfact_content_types][download][working-copy] = "true"
 projects[webfact_content_types][download][url] = "git://github.com/Boran/webfact_content_types.git"
 
 

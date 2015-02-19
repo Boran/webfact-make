@@ -1,8 +1,8 @@
-automation for building a the webfactory UI
+Automation for building a Webfactory UI
 
-Installation
+Installation: step by step
 ----------------------------------------------
-First install a boran/drupal docker container.  This will set a vanilla drupal and point port 8000 on the docker host to it. It also makes the dock socker available in the container.
+First install a boran/drupal docker container.  This will setup vanilla drupal and point port 8000 on the docker host to it. It also makes the docker socket available in the container.
 ```
 # grab the latest image
 docker pull boran/drupal
@@ -35,20 +35,48 @@ chown -R www-data /var/www/html/sites/default /var/www/html/sites/all /var/lib/d
 
 Run the install profile
 ```
-export MYSQL_PASSWORD=`cat /drupal-db-pw.txt`
-export YOUREMAIL="you@example.com"
-(cd /var/www/html/sites/default &&  drush site-install webfactp -y --account-name=admin --account-pass=changeme --account-mail=$YOUREMAIL --site-name=webfacty --site-mail=$YOUREMAIL  --db-url="mysqli://drupal:${MYSQL_PASSWORD}@localhost:3306/drupal" )
+MYSQL_PASSWORD=`cat /drupal-db-pw.txt`
+YOUREMAIL="bob@example.ch"
+sitename="webfact"
+(cd /var/www/html/sites/default &&  drush site-install webfactp -y --account-name=admin --account-pass=changeme --account-mail=$YOUREMAIL --site-name=$sitename --site-mail=$YOUREMAIL  --db-url="mysqli://drupal:${MYSQL_PASSWORD}@localhost:3306/drupal" )
 ```
 
 Manual step: download composer components
 ```
-(cd /var/www/html; drush -y composer-manager install)
+(cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install)
 # theme TPL
 (cd /var/www/html/sites/all/themes/contrib/bootstrap; ln -s /var/www/html/sites/all/modules/custom/webfact/views-view-field--websites.tpl.php views-view-field--websites.tpl.php; drush cc all)
 ```
 
 
 Done: go to the website page and log as admin/changeme
+
+
+Installation: quickie using boran/drupal
+----------------------------------------------
+Do everything from the boran/drupal docker container.  This will setup a container called webfact point port 8000 on the docker host to it. It also makes the docker socket available in the container.
+```
+# grab the latest image
+docker pull boran/drupal
+
+# create a webfact container
+name=webfact
+domain=$name.example.ch
+email=bob@example.ch
+image="boran/drupal"
+port=8020
+
+docker stop $name;
+docker rm $name;
+
+docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_CMD="cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install; cd sites/all/themes/contrib/bootstrap; ln -s /var/www/html/sites/all/modules/custom/webfact/views-view-field--websites.tpl.php views-view-field--websites.tpl.php;" -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
+
+
+# follow progress
+docker logs -f $name
+```
+
+To do on this oneline: feature not installed?
 
 
 TO DO
@@ -60,10 +88,10 @@ Full automate
 * term: category
   * admin/structure/taxonomy/category: add 'test' and 'production'
   * admin/structure/types/manage/website/fields: set default template+category
-* hide search blcok
-* enable page caching
 
 low prio:
+* hide search blcok
+* enable page caching
 * menu order
 * Theme
   admin/appearance/settings: hide the site slogan, set the logo to Factory150.jpg
