@@ -21,11 +21,12 @@ projects[drupal][version] = 7.x
 ; Profiles
 projects[webfactp][type] = "profile"
 projects[webfactp][subdir] = ""
+projects[webfactp][download][type] = "git"
+projects[webfactp][download][url] = "git://github.com/Boran/webfact-make.git"
+;testing:
 ;projects[webfactp][download][type] = "file"
 ;projects[webfactp][download][url] = "webfactp.tgz"
 ; a bit recursive: we get outselves :-)
-projects[webfactp][download][type] = "git"
-projects[webfactp][download][url] = "git://github.com/Boran/webfact-make.git"
 
 
 ; Modules
@@ -98,13 +99,13 @@ projects[field_group][subdir] = "contrib"
 ;projects[node_export][type] = "module"
 ;projects[node_export][subdir] = "contrib"
 
+projects[composer_manager][type] = "module"
+projects[composer_manager][subdir] = "contrib"
 ; how to install a drush extension?
 ;projects[composer][type] = "module"
 ;projects[composer][download][type] = "git"
 ;projects[composer][download][branch] = "8.x-1.x"
 ;projects[composer][download][url] = "http://git.drupal.org/project/composer.git"
-projects[composer_manager][type] = "module"
-projects[composer_manager][subdir] = "contrib"
 
 
 ; webfactory
@@ -120,6 +121,11 @@ projects[webfact_content_types][download][type] = "git"
 projects[webfact_content_types][download][working-copy] = "true"
 projects[webfact_content_types][download][url] = "git://github.com/Boran/webfact_content_types.git"
 
+projects[webfactapi][type] = "module"
+projects[webfactapi][subdir] = "custom"
+projects[webfactapi][download][type] = "git"
+projects[webfactapi][download][working-copy] = "true"
+projects[webfactapi][download][url] = "git://github.com/Boran/webfactapi.git"
 
 ; Themes
 ; --------
