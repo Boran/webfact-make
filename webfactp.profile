@@ -47,10 +47,12 @@ function webfactp_set_theme() {
   $query->execute();
 */
 
-  // settings
+  // settings: performance
   variable_set('page_compression', '1');
   variable_set('preprocess_css', '1');
   variable_set('preprocess_js', '1');
+  variable_set('cache', 1);
+
   variable_set('jquery_update_compression_type', 'min');
   variable_set('jquery_update_jquery_cdn', 'google');
 
@@ -67,6 +69,8 @@ function webfactp_set_theme() {
   node_save($node);
   variable_set('site_frontpage', 'node/1');
 
+
+  // other settings
   variable_set('file_private_path', '/var/lib/drupal-private');
   variable_set('file_temporary_path', '/tmp');
 
@@ -76,17 +80,28 @@ function webfactp_set_theme() {
   // can enable the feature here, but not in the .info. strange
   module_enable(array('webfact_content_types'));
 
+  // add a template
+  $node = new stdClass();
+  $node->type = 'template';
+  $node->uid = 1;
+  $node->title = 'Plain Drupal7';
+  $node->language = LANGUAGE_NONE;
+  $node->body[$node->language][0]['value']='Vanilla Drupal 7';
+  $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
+  node_save($node);
+  $templateid = $node->id;
+
   // add a website
   $node = new stdClass();
   $node->type = 'website';
   $node->uid = 1;
   $node->title = 'vanilla';
   $node->language = LANGUAGE_NONE;
-  $node->body[$node->language][0]['value']='First website container called vanilla using the boran/drupal image';
+  $node->body[$node->language][0]['value']='First website container called vanilla using the boran/drupal image from the template Plain Drupal7';
   $node->field_hostname['und'][0]['value'] = 'vanilla';
-  $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
+  //$node->field_docker_image['und'][0]['value'] = 'boran/drupal';   // could directly specify the image
+  $node->field_template['und'][0]['target_id'] = $templateid; // link to template
   node_save($node);
-  # todo: set hostname, image
 
 }
 
