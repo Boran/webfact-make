@@ -1,5 +1,32 @@
 Automation for building a Webfactory UI
 
+Installation: quickie using boran/drupal
+----------------------------------------------
+Do everything from the boran/drupal docker container.  This will setup a container called webfact point port 8000 on the docker host to it. It also makes the docker socket available in the container.
+```
+# grab the latest image
+docker pull boran/drupal
+
+# create a webfact container
+name=webfact
+domain=$name.example.ch
+email=bob@example.ch
+image="boran/drupal"
+port=8020
+
+docker stop $name;
+docker rm $name;
+
+docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_CMD="chown www-data /var/run/docker.dock; cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install; cd sites/all/themes/contrib/bootstrap; ln -s /var/www/html/sites/all/modules/custom/webfact/views-view-field--websites.tpl.php views-view-field--websites.tpl.php;" -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
+
+
+# follow progress
+docker logs -f $name
+```
+
+To do on this oneline: feature not installed?
+
+
 Installation: step by step
 ----------------------------------------------
 First install a boran/drupal docker container.  This will setup vanilla drupal and point port 8000 on the docker host to it. It also makes the docker socket available in the container.
@@ -44,39 +71,13 @@ sitename="webfact"
 Manual step: download composer components
 ```
 (cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install)
+chown www-data /var/run/docker.dock;
 # theme TPL
 (cd /var/www/html/sites/all/themes/contrib/bootstrap; ln -s /var/www/html/sites/all/modules/custom/webfact/views-view-field--websites.tpl.php views-view-field--websites.tpl.php; drush cc all)
 ```
 
 
 Done: go to the website page and log as admin/changeme
-
-
-Installation: quickie using boran/drupal
-----------------------------------------------
-Do everything from the boran/drupal docker container.  This will setup a container called webfact point port 8000 on the docker host to it. It also makes the docker socket available in the container.
-```
-# grab the latest image
-docker pull boran/drupal
-
-# create a webfact container
-name=webfact
-domain=$name.example.ch
-email=bob@example.ch
-image="boran/drupal"
-port=8020
-
-docker stop $name;
-docker rm $name;
-
-docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_CMD="cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install; cd sites/all/themes/contrib/bootstrap; ln -s /var/www/html/sites/all/modules/custom/webfact/views-view-field--websites.tpl.php views-view-field--websites.tpl.php;" -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
-
-
-# follow progress
-docker logs -f $name
-```
-
-To do on this oneline: feature not installed?
 
 
 TO DO
