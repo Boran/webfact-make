@@ -57,6 +57,7 @@ dependencies[] = entityreference
 ; custom
 dependencies[] = composer_manager
 dependencies[] = webfact
+;dependencies[] = webfactapi
 
 ; libraries
 ;dependencies[] = bootstrap_library
