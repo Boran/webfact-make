@@ -89,7 +89,7 @@ function webfactp_set_theme() {
   $node->body[$node->language][0]['value']='Vanilla Drupal 7';
   $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
   node_save($node);
-  $templateid = $node->id;
+  $templateid = $node->nid;
 
   // add a website
   $node = new stdClass();
