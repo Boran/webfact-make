@@ -133,6 +133,11 @@ projects[bootstrap][version] = 3.0
 projects[bootstrap][type] = "theme"
 projects[bootstrap][subdir] = "contrib"
 
+projects[webfact_theme][type] = "theme"
+projects[webfact_theme][subdir] = "custom"
+projects[webfact_theme][download][type] = "git"
+projects[webfact_theme][download][url] = "git@github.com:Innoveto/webfact_theme.git"
+
 ;Theme helpers
 ; --------
 projects[views_bootstrap][type] = "module"
