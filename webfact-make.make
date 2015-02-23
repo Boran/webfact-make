@@ -136,7 +136,8 @@ projects[bootstrap][subdir] = "contrib"
 projects[webfact_theme][type] = "theme"
 projects[webfact_theme][subdir] = "custom"
 projects[webfact_theme][download][type] = "git"
-projects[webfact_theme][download][url] = "git@github.com:Boran/webfact_theme.git"
+projects[webfact_theme][download][working-copy] = "true"
+projects[webfact_theme][download][url] = "git://github.com/Boran/webfact_theme.git"
 
 ;Theme helpers
 ; --------
