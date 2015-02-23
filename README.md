@@ -2,7 +2,7 @@ Webfact-make: Automation for building a Webfactory UI
 
 The Webfactory provides a UI to interface to the Docker API, allowing operations on containers/images. It aims to streamline dev and operations for Drupal websites. See also https://github.com/Boran/webfact
 
-The Webfactory consists of several modules: webfact (main logic), webfact_content_types (features/views), webfact-make (build/install), webfactapi (optional remote control) and webfactory (deprecated: full site install)
+The Webfactory consists of several modules: webfact (main logic), webfact_content_types (features/views), webfact-make (build/install), webfact_theme (styling), webfactapi (optional remote control) and webfactory (deprecated: full site install)
 
 You need:
   Docker server (e.g. Ubuntu 14.04) with docker 1.5 or later
@@ -31,7 +31,7 @@ port=8020
 docker stop $name;
 docker rm $name;
 
-docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_CMD="chown www-data /var/run/docker.dock; cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install; cd sites/all/themes/contrib/bootstrap; ln -s /var/www/html/sites/all/modules/custom/webfact/views-view-field--websites.tpl.php views-view-field--websites.tpl.php;" -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
+docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_CMD="chown www-data /var/run/docker.dock; cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install;"  -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
 
 # follow progress
 docker logs -f $name
@@ -86,8 +86,6 @@ Manual step: download composer components
 ```
 (cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install)
 chown www-data /var/run/docker.dock;
-# theme TPL
-(cd /var/www/html/sites/all/themes/contrib/bootstrap; ln -s /var/www/html/sites/all/modules/custom/webfact/views-view-field--websites.tpl.php views-view-field--websites.tpl.php; drush cc all)
 ```
 
 
@@ -104,7 +102,6 @@ Automate:
 * Fully automate stuff from the install profile, rather than DRUPAL_FINAL_CMD (this will be needed for CI).
   * composer
     (cd /var/www/html; drush -y composer-manager install)
-  * link theme tpl
 * When a container is empty:
   Trying to get property of non-object in WebfactController->load_meta() (line 226 of /var/www/html/sites/all/modules/custom/webfact/controller.php
 
