@@ -7,9 +7,8 @@ The Webfactory consists of several modules: webfact (main logic), webfact_conten
 You need:
   Docker server (e.g. Ubuntu 14.04) with docker 1.5 or later
   Container for the webfactory (e.g. the drupal lamp "boran/drupal" container)
-  This module and the webfactfeature module
-  Some Drupal contrib modules.
-  Bootstrap theme and link in the theme function for status fields
+  THe webfact modules listed above.
+  Some Drupal contrib modules and the Bootstrap theme.
 
 
 Installation: quickie using boran/drupal
