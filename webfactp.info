@@ -71,9 +71,6 @@ dependencies[] = strongarm
 ; exception 'FieldException' with message 'Attempt to create field name <em class="placeholder">field_image</em> which already exists and is       [error] active.' in /var/www/html/modules/field/field.crud.inc:85
 ;dependencies[] = webfact_content_types
 
-; theme
-dependencies[] = bootstrap
-
 ; optional
 dependencies[] = devel
 dependencies[] = admin_menu
