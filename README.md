@@ -93,21 +93,7 @@ Installation done: go to the website page and log as admin/admin and see the con
 
 TO DO
 -----
-Automate:
-* Add default term: category
-  * admin/structure/taxonomy/category: add 'test' and 'production'
-  * admin/structure/types/manage/website/fields: set default template+category
-* admin/structure/block : disable the search blocks
-* Fully automate stuff from the install profile, rather than DRUPAL_FINAL_CMD (this will be needed for CI).
-  * composer
-    (cd /var/www/html; drush -y composer-manager install)
-* When a container is empty:
-  Trying to get property of non-object in WebfactController->load_meta() (line 226 of /var/www/html/sites/all/modules/custom/webfact/controller.php
-
-Later:
-* manually: enable feature
- 'Attempt to create field name <em class="placeholder">field_image</em> which already exists and is       [error]
-active.' in /var/www/html/modules/field/field.crud.inc:85
+See the issues on github and specifically the meta #3: https://github.com/Boran/webfact-make/issues/3
 
 
 Configuration (after installation)
