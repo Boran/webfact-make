@@ -13,6 +13,7 @@ function webfactp_install_tasks() {
 
 function webfactp_set_theme() {
   $enable = array(
+    'bootstrap',
     'theme_default' => 'webfact_theme',
     'admin_theme' => 'seven',
   );
