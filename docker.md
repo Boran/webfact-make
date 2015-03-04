@@ -1,5 +1,5 @@
 
-Installing dokcer on Ubuntu 14.04
+Installing docker on Ubuntu 14.04
 ---------------------------------
 ```
 apt-get update
