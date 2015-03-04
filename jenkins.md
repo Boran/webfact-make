@@ -38,6 +38,8 @@ echo "-- complete, you can now connect to http://$domain:$port"
 # Does the site respond, is some expected text there?
 curl --silent -o - http://$domain:$port/ | grep  -c "The webfactory allows"
 ```
-Optionally enable SCM (git) polling and email notification.
+Optionally 
+ * Job: enable SCM (git) polling and email notification.
+ * Configure the SMTP server (under manage jenkins)
 
 Todo: add some real tests.
