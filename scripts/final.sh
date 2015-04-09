@@ -8,7 +8,7 @@ drush dl -y composer-8.x-1.x;
 drush -y composer-manager install;
 
 # Theming
-cp profiles/webfactp/scripts/Factory150.jpg sites/default/files/Factory150.jpg
+cp /opt/drush-make/webfact-make/scripts/Factory150.jpg sites/default/files/Factory150.jpg
 cat << EOF | drush vset --format=json theme_settings -
 {
     "theme_settings": {
@@ -35,6 +35,10 @@ echo "update block set status=0 where delta='navigation' and theme='webfact_them
 echo "update block set status=0 where delta='powered-by' and theme='webfact_theme'" | drush sql-cli
 echo "update block set status=0 where module='search' and theme='webfact_theme'" | drush sql-cli
 
+# Assume not for development
+drush -y dis devel
+
 # clear caches
-drush cc all
+drush -y cache-clear drush
+
 
