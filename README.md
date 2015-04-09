@@ -98,23 +98,21 @@ See the issues on github and specifically the meta #3: https://github.com/Boran/
 
 Configuration (after installation)
 ----------------------------------
-Login and change the admin password.
-* Webfactory
-  admin/config/development/webfact: set the URL for the docker host, domain prefix and other settings
-
-* Theme
-  admin/appearance/settings: hide the site slogan, set the logo to Factory150.jpg
-  admin/structure/block : disable the navigation blocks
-* menu order
-* Webfactory
-  - admin/structure/block: enable the myWebsites into the content zone, only for the listed pages 'user', 'user/*'
-  - admin/config/development/webfact: set the URL for the docker host and domain prefix
-  - node/add: add a template (better: use node export from an existing site)
+After installation a basic webfactory should be running, with one sample website and one template. 
+Next steps:
 * Login and change the admin password.
+* Webfactory settings:
+  admin/config/development/webfact: set the URL for the docker host, domain prefix and other settings
+* menu order: put 'home' first.
 * Permissions: 
   - the Site Owner role should be able to create new, edit own and delete own 'website' content. Assign this role of users who need to create websites.
   - the Administrator role should have all rights on the Website/Template content types and Webfactory UI.
-Optional: 
+More: 
+* Theme
+  admin/structure/block : disable the navigation + drupal blocks
+* Webfactory
+  - admin/structure/block: enable the myWebsites into the content zone, only for the listed pages 'user', 'user/*'
+  - node/add: add more templates (easier: use node export from an existing webfactory)
 * admin/config/system/backup_migrate 
   . create a directory /data/backup_migrate and set the owner to www-data
   . Create a Schedule "daily" with default settings
