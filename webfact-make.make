@@ -21,9 +21,8 @@ projects[drupal][version] = 7.x
 ; Profiles
 projects[webfactp][type] = "profile"
 projects[webfactp][subdir] = ""
-;projects[webfactp][download][type] = "git"
+projects[webfactp][download][type] = "git"
 ;projects[webfactp][download][url] = "git://github.com/Boran/webfact-make.git"
-projects[webfactp][download][type] = "file"
 projects[webfactp][download][url] = "https://github.com/Boran/webfact-make.git"
 ;testing:
 ;projects[webfactp][download][type] = "file"
@@ -113,26 +112,23 @@ projects[composer_manager][subdir] = "contrib"
 ; webfactory
 projects[webfact][type] = "module"
 projects[webfact][subdir] = "custom"
-;projects[webfact][download][type] = "git"
+projects[webfact][download][type] = "git"
 ;projects[webfact][download][working-copy] = "true"
 ;projects[webfact][download][url] = "git://github.com/Boran/webfact.git"
-projects[webfact][download][type] = "file"
 projects[webfact][download][url] = "https://github.com/Boran/webfact.git"
 
 projects[webfact_content_types][type] = "module"
 projects[webfact_content_types][subdir] = "custom"
-;projects[webfact_content_types][download][type] = "git"
+projects[webfact_content_types][download][type] = "git"
 ;projects[webfact_content_types][download][working-copy] = "true"
 ;projects[webfact_content_types][download][url] = "git://github.com/Boran/webfact_content_types.git"
-projects[webfact_content_types][download][type] = "file"
 projects[webfact_content_types][download][url] = "https://github.com/Boran/webfact_content_types.git"
 
 projects[webfactapi][type] = "module"
 projects[webfactapi][subdir] = "custom"
-;projects[webfactapi][download][type] = "git"
+projects[webfactapi][download][type] = "git"
 ;projects[webfactapi][download][working-copy] = "true"
 ;projects[webfactapi][download][url] = "git://github.com/Boran/webfactapi.git"
-projects[webfactapi][download][type] = "file"
 projects[webfactapi][download][url] = "https://github.com/Boran/webfactapi.git"
 
 ; Themes
@@ -143,11 +139,10 @@ projects[bootstrap][subdir] = "contrib"
 
 projects[webfact_theme][type] = "theme"
 projects[webfact_theme][subdir] = "custom"
-;projects[webfact_theme][download][type] = "git"
+projects[webfact_theme][download][type] = "git"
 ;projects[webfact_theme][download][working-copy] = "true"
 ;projects[webfact_theme][download][url] = "git://github.com/Boran/webfact_theme.git"
-projects[webfact_theme][download][type] = "file"
-projects[webfact_theme][download][url] = "https://github.com/Boran/webfact_content_types.git"
+projects[webfact_theme][download][url] = "https://github.com/Boran/webfact_theme.git"
 
 ;Theme helpers
 ; --------
