@@ -41,4 +41,9 @@ drush -y dis devel
 # clear caches
 drush -y cache-clear drush
 
+# Ensure webui can access docker socket
+chown www-data /var/run/docker.sock;
+
+# Git settings
+git config --global push.default matching
 
