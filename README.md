@@ -123,23 +123,27 @@ Next steps:
 * Login and change the admin password.
 * Webfactory settings:
   admin/config/development/webfact: set the URL for the docker host, domain prefix and other settings
-* menu order: put 'home' first.
+* menu order: put 'home' first (admin/structure/menu/manage/main-menu)
 * Permissions: 
-  - the Site Owner role should be able to create new, edit own and delete own 'website' content. Assign this role of users who need to create websites.
+  - Assign the Site Owner role to users who need to create websites.
+  - permissions: This role should be able to create new, edit own and delete own 'website' entities. You may wish to allow Site Owners to create and edit own Template entities.
+  - Site Owners probably need teh 'Access websites" and otpionally 'Manage Containers'.
   - the Administrator role should have all rights on the Website/Template content types and Webfactory UI.
 More: 
 * Theme
-  admin/structure/block : disable the navigation + drupal blocks
+  admin/structure/block : disable the navigation + drupal blocks (should be done by the final.sh script)
 * Webfactory
   - admin/structure/block: enable the myWebsites into the content zone, only for the listed pages 'user', 'user/*'
-  - node/add: add more templates (easier: use node export from an existing webfactory)
-* admin/config/system/backup_migrate 
-  . create a directory /data/backup_migrate and set the owner to www-data
+  - node/add: add more templates 
+* Modules:
+  - Enable node export. Now you can export/import templates from another Webfactory instance (see node/add/node_export)
+* Backups
+  . Enable the Backup/Migrate modules, and configure it - admin/config/system/backup_migrate 
+  . In the settings tab, override the the manual and schedules directories to /data/backup_migrate/manual and /data/backup_migrate/scheduled
   . Create a Schedule "daily" with default settings
-  . Change the destination "Scheduled Backups Directory" to /data/backup_migrate
   . Override Settings > Settings profiles > Default > Override > Advanced: enable 'Send an email if backup succeeds'
-  . Do an example backup
-  . enable the contact module, and a contact page/menu.
+  . Do a 'Backup now' with destination of Manual Backups Directory
+* Contact: The contact form is already enabled as /contact. Set recipients under admin/structure/contact. Add it to the main menu after templates.
 
 Using
 -----
