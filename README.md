@@ -11,8 +11,8 @@ You need:
   Some Drupal contrib modules and the Bootstrap theme.
 
 
-Installation: quickie using boran/drupal
-----------------------------------------
+Installation: quickie using a drush makefile and the boran/drupal image
+-----------------------------------------------------------------------
 We assume you have docker installed (see docker.md) and know how to use it.
 
 Setup a new container based on the boran/drupal image. The container called webfact points port 8020 on the docker host to it. It also makes the docker socket available in the container.
@@ -30,14 +30,13 @@ port=8020
 docker stop $name;
 docker rm $name;
 
-docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_CMD="chown www-data /var/run/docker.dock; cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install;"  -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
+docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -v /opt/sites/$name:/data -v /opt/sites:/opt/sites -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_CMD="chown www-data /var/run/docker.dock; cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install;"  -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
 
 # follow progress
 docker logs -f $name
 ```
 
 Installation done: go to the website page and log on as admin, password=admin and see the configuration section below.
-
 
 Installation: step by step
 ---------------------------
@@ -87,8 +86,29 @@ Manual step: download composer components
 chown www-data /var/run/docker.dock;
 ```
 
-
 Installation done: go to the website page and log as admin/admin and see the configuration section below.
+
+
+Installation: /var/www/html from  your custom repo
+-----------------------------------------------
+Lets say you have installed a fresh Drupal and checked /var/www/html into your own repo. Assuming all required modules are available, one can install the container ba a) checking out your repo, running the webfact profile and final script, e.g.
+```
+# grab the latest image
+docker pull boran/drupal
+
+# create a webfact container
+name=webfact
+domain=$name.example.ch
+email=bob@example.ch
+image="boran/drupal"
+port=8020
+
+docker stop $name;
+docker rm $name;
+
+docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -v /opt/sites/$name:/data -v /opt/sites:/opt/sites -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_GIT_REPO=https://YOUR.GITREPO.COM/some/path" -e "DRUPAL_GIT_BRANCH=master" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_SCRIPT=/var/www/html/profiles/webfactp/scripts/final.sh"  -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
+```
+Notes: adapt DRUPAL_GIT_REPO and DRUPAL_GIT_BRANCH. Clone https://github.com/Boran/webfact-make.git/ into /var/www/html/profiles/webfactp. Adapt /var/www/html/profiles/webfactp/scripts/final.sh if you need to automated some settings when installing.
 
 
 TO DO
