@@ -27,10 +27,10 @@ email=bob@example.ch
 image="boran/drupal"
 port=8020
 
-docker stop $name;
-docker rm $name;
+# incase you already had a webfact
+docker stop $name; docker rm $name;
 
-docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -v /opt/sites/$name:/data -v /opt/sites:/opt/sites -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_CMD="chown www-data /var/run/docker.dock; cd /var/www/html; drush dl -y composer-8.x-1.x; drush -y composer-manager install;"  -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
+docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -v /opt/sites/$name:/data -v /opt/sites:/opt/sites -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_SCRIPT=/opt/drush-make/webfact-make/scripts/final.sh  -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
 
 # follow progress
 docker logs -f $name
@@ -129,7 +129,8 @@ Next steps:
   - permissions: This role should be able to create new, edit own and delete own 'website' entities. You may wish to allow Site Owners to create and edit own Template entities.
   - Site Owners probably need teh 'Access websites" and otpionally 'Manage Containers'.
   - the Administrator role should have all rights on the Website/Template content types and Webfactory UI.
-More: 
+
+Optional configuration: 
 * Theme
   admin/structure/block : disable the navigation + drupal blocks (should be done by the final.sh script)
 * Webfactory
@@ -147,6 +148,10 @@ More:
 
 Using
 -----
-Todo: add a walkthough on create templates and websites and operations on websites.
+* Build a first Drupal website: Go to the websites menu > vanilla > Manage > create.  
+  - It will take maybe 40 seconds and the 'built status' will reach 100. 
+  - Go to Manage > Docker logs to follow progress.
+  - Now, how to visit the new website that has been created? This can be done in several ways, mapping a port on the docker server to the new website, or using an nginx container to automatically map the port.
+* Todo: add a walkthough on create templates and websites and operations on websites.
 
 
