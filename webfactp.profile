@@ -83,12 +83,13 @@ function webfactp_set_theme() {
   watchdog('webfact',"add example templates");
   $node = new stdClass();
   $node->type = 'template';
-  $node->uid = 1;
+  //$node->uid = 1;
   $node->is_new = 1;
   $node->title = 'Plain Drupal7';
   $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='Default Drupal 7';
   $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
+  $node = node_submit($node);
   node_save($node);
   $templateid = $node->nid;
 
