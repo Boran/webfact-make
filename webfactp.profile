@@ -12,6 +12,8 @@ function webfactp_install_tasks() {
 }
 
 function webfactp_set_theme() {
+  $fh = fopen('/tmp/webfactp_set_theme.log' $myFile, 'w');
+
   theme_enable(array('bootstrap'));
   $enable = array(
     'theme_default' => 'webfact_theme',
@@ -66,7 +68,7 @@ function webfactp_set_theme() {
   $node->path = array('alias' => 'welcome');
   //$node->promote = 0;
   $node->language = LANGUAGE_NONE;
-  $node->body[$node->language][0]['value']='The webfactory allows creation of micro websites thanks to Docker and Drupal';
+  $node->body['und'][0]['value']='The webfactory allows creation of micro websites thanks to Docker and Drupal';
   node_save($node);
   variable_set('site_frontpage', 'node/1');
 
@@ -82,17 +84,18 @@ function webfactp_set_theme() {
 
 
   watchdog('webfact',"add example templates"); // log does not yet work
-  echo "add example templates"; // how to see output?
+  fwrite($fh, "add example templates"); // how to see output?
   $node = new stdClass();
   $node->type = 'template';
+  node_object_prepare($node);
   $node->uid = 1;
   $node->is_new = 1;
   $node->title = 'Plain Drupal7';
-  node_object_prepare($node);
   $node->language = LANGUAGE_NONE;
-  $node->body[$node->language][0]['value']='Default Drupal 7';
+  $node->body['und'][0]['value']='Default Drupal 7';
   $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
   node_save($node);
+  fwrite($fh, $node->nid);
   $templateid = $node->nid;
 
   $node->is_new = 1;
@@ -102,25 +105,27 @@ function webfactp_set_theme() {
   $node->body[$node->language][0]['value']='Use this template if all docker settings are specified in the website...';
   $node->field_docker_image['und'][0]['value'] = '';
   node_save($node);
+  fwrite($fh, $node->nid);
   if ($node->nid) unset($node); // unset if node was created successfully
 
   $node = new stdClass();
   $node->type = 'template';
+  node_object_prepare($node);
   $node->uid = 1;
   $node->title = 'Drupal8';
-  node_object_prepare($node);
   $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='Drupal 8';
   $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
   $node->field_docker_environment['und'][0]['value'] = 'DRUPAL_VERSION=drupal-8';
   node_save($node);
+  fwrite($fh, $node->nid);
   if ($node->nid) unset($node); // unset if node was created successfully
 
   $node = new stdClass();
   $node->type = 'template';
+  node_object_prepare($node);
   $node->uid = 1;
   $node->title = 'Drupal7 with Make';
-  node_object_prepare($node);
   $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='make example';
   $node->body[$node->language][0]['value']='Build with custom drush make, profile. Download and call a finalise script after installation.';
@@ -131,6 +136,7 @@ function webfactp_set_theme() {
   $node->field_docker_environment['und'][3]['value'] = 'DRUPAL_INSTALL_REPO=https://github.com/Boran/drupal-profile1.git';
   $node->field_docker_environment['und'][4]['value'] = 'DRUPAL_FINAL_CMD=curl --silent -o /tmp/cleanup1.sh https://raw.githubusercontent.com/Boran/webfact-make/master/scripts/cleanup1.sh && chmod 700 /tmp/cleanup1.sh';
   $node->field_docker_environment['und'][5]['value'] = 'DRUPAL_FINAL_SCRIPT=/tmp/cleanup1.sh';
+  fwrite($fh, $node->nid);
   node_save($node);
   if ($node->nid) unset($node); // unset if node was created successfully
 
@@ -145,8 +151,10 @@ function webfactp_set_theme() {
   $node->field_hostname['und'][0]['value'] = 'vanilla';
   //$node->field_docker_image['und'][0]['value'] = 'boran/drupal';   // could directly specify the image
   $node->field_template['und'][0]['target_id'] = $templateid; // link to template
+  fwrite($fh, $node->nid);
   node_save($node);
 
+  fclose($fh);
 }
 
 
