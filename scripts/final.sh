@@ -4,7 +4,16 @@
 # Do stuff that cannot be done in the makefile or profile.
 
 cd /var/www/html; 
+echo "-- Install drupal composer and composer-manager modules"
 drush dl -y composer-8.x-1.x; 
+
+# 2015.05.21: hotfix: composer module is broken, see https://www.drupal.org/node/2461921
+# for now manually apply patch
+echo "-- Apply composer module patch https://www.drupal.org/files/issues/2461921-2.patch"
+cd /root/.drush/composer
+wget https://www.drupal.org/files/issues/2461921-2.patch
+patch -p1 < 2461921-2.patch
+
 drush -y composer-manager install;
 
 # Theming
