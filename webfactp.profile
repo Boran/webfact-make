@@ -12,7 +12,7 @@ function webfactp_install_tasks() {
 }
 
 function webfactp_set_theme() {
-  $fh = fopen('/var/tmp/webfactp_set_theme.log', 'w');
+  $fh = fopen('/var/tmp/webfactp_set_theme.log', 'a');
 
   theme_enable(array('bootstrap'));
   $enable = array(
@@ -98,9 +98,10 @@ function webfactp_set_theme() {
   fwrite($fh, $node->nid);
   if ($node->nid) unset($node); // unset if node was created successfully
 
+  // add second template: does not work
   $node = new stdClass();
   $node->type = 'template';
-  node_object_prepare($node);
+  //node_object_prepare($node);
   $node->uid = 1;
   $node->is_new = 1;
   $node->title = 'NONE';
@@ -112,6 +113,7 @@ function webfactp_set_theme() {
   fwrite($fh, $node->nid);
   if ($node->nid) unset($node); // unset if node was created successfully
 
+/*
   $node = new stdClass();
   $node->type = 'template';
   node_object_prepare($node);
@@ -144,8 +146,9 @@ function webfactp_set_theme() {
   node_save($node);
   if ($node->nid) unset($node); // unset if node was created successfully
 
+*/
 
-  // add a website
+  // add a website: works
   $node = new stdClass();
   $node->type = 'website';
   $node->uid = 1;
