@@ -13,6 +13,7 @@ echo "-- Apply composer module patch https://www.drupal.org/files/issues/2461921
 cd /root/.drush/composer
 wget https://www.drupal.org/files/issues/2461921-2.patch
 patch -p1 < 2461921-2.patch
+cd /var/www/html; 
 
 drush -y composer-manager install;
 
