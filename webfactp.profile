@@ -102,6 +102,7 @@ function webfactp_set_theme() {
   $node->body[$node->language][0]['value']='Use this template if all docker settings are specified in the website...';
   $node->field_docker_image['und'][0]['value'] = '';
   node_save($node);
+  if ($node->nid) unset($node); // unset if node was created successfully
 
   $node = new stdClass();
   $node->type = 'template';
@@ -113,6 +114,7 @@ function webfactp_set_theme() {
   $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
   $node->field_docker_environment['und'][0]['value'] = 'DRUPAL_VERSION=drupal-8';
   node_save($node);
+  if ($node->nid) unset($node); // unset if node was created successfully
 
   $node = new stdClass();
   $node->type = 'template';
@@ -130,6 +132,7 @@ function webfactp_set_theme() {
   $node->field_docker_environment['und'][4]['value'] = 'DRUPAL_FINAL_CMD=curl --silent -o /tmp/cleanup1.sh https://raw.githubusercontent.com/Boran/webfact-make/master/scripts/cleanup1.sh && chmod 700 /tmp/cleanup1.sh';
   $node->field_docker_environment['und'][5]['value'] = 'DRUPAL_FINAL_SCRIPT=/tmp/cleanup1.sh';
   node_save($node);
+  if ($node->nid) unset($node); // unset if node was created successfully
 
 
   // add a website
