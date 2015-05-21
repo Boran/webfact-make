@@ -80,10 +80,12 @@ function webfactp_set_theme() {
   // can enable the feature here, but not in the .info. strange
   module_enable(array('webfact_content_types'));
 
+
   watchdog('webfact',"add example templates");
   $node = new stdClass();
   $node->type = 'template';
-  //$node->uid = 1;
+  $node->uid = 1;
+  node_object_prepare($node);
   $node->is_new = 1;
   $node->title = 'Plain Drupal7';
   $node->language = LANGUAGE_NONE;
@@ -97,10 +99,12 @@ function webfactp_set_theme() {
   $node = new stdClass();
   $node->type = 'template';
   $node->uid = 1;
+  node_object_prepare($node);
   $node->is_new = 1;
   $node->title = 'NONE';
   $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='Use this template if all docker settings are specified in the website...';
+  $node = node_submit($node);
   node_save($node);
 
   $node = new stdClass();
