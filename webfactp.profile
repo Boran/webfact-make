@@ -86,28 +86,28 @@ function webfactp_set_theme() {
   $node = new stdClass();
   $node->type = 'template';
   $node->uid = 1;
-  node_object_prepare($node);
   $node->is_new = 1;
   $node->title = 'Plain Drupal7';
+  node_object_prepare($node);
   $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='Default Drupal 7';
   $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
-  $node = node_submit($node);
   node_save($node);
   $templateid = $node->nid;
 
   $node->is_new = 1;
   node_object_prepare($node);
   $node->title = 'NONE';
+  node_object_prepare($node);
   $node->body[$node->language][0]['value']='Use this template if all docker settings are specified in the website...';
   $node->field_docker_image['und'][0]['value'] = '';
-  $node = node_submit($node);
   node_save($node);
 
   $node = new stdClass();
   $node->type = 'template';
   $node->uid = 1;
   $node->title = 'Drupal8';
+  node_object_prepare($node);
   $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='Drupal 8';
   $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
@@ -118,6 +118,7 @@ function webfactp_set_theme() {
   $node->type = 'template';
   $node->uid = 1;
   $node->title = 'Drupal7 with Make';
+  node_object_prepare($node);
   $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='make example';
   $node->body[$node->language][0]['value']='Build with custom drush make, profile. Download and call a finalise script after installation.';
