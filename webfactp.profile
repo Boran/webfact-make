@@ -86,7 +86,7 @@ function webfactp_set_theme() {
   fwrite($fh, "add example templates"); // try to log output
   $node = new stdClass();
   $node->type = 'template';
-  node_object_prepare($node);
+  //node_object_prepare($node);
   $node->uid = 1;
   $node->is_new = 1;
   $node->title = 'Plain Drupal7';
@@ -97,16 +97,17 @@ function webfactp_set_theme() {
   $templateid = $node->nid;
   fwrite($fh, $node->nid);
   if ($node->nid) unset($node); // unset if node was created successfully
+  flush(); // desperate
 
   // add second template: does not work
   $node = new stdClass();
   $node->type = 'template';
   //node_object_prepare($node);
   $node->uid = 1;
-  $node->is_new = 1;
+  //$node->is_new = 1;
   $node->title = 'NONE';
   $node->language = LANGUAGE_NONE;
-  node_object_prepare($node); // ?
+  //node_object_prepare($node); // ?
   $node->body['und'][0]['value']='Use this template if all docker settings are specified in the website...';
   $node->field_docker_image['und'][0]['value'] = '';
   node_save($node);
