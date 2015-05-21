@@ -148,10 +148,18 @@ Optional configuration:
 
 Using
 -----
-* Build a first Drupal website: Go to the websites menu > vanilla > Manage > create.  
+* Build a first Drupal website: 
+  - Go to the websites menu > vanilla > Manage > create.  
   - It will take maybe 40 seconds and the 'built status' will reach 100. 
   - Go to Manage > Docker logs to follow progress.
   - Now, how to visit the new website that has been created? This can be done in several ways, mapping a port on the docker server to the new website, or using an nginx container to automatically map the port.
-* Todo: add a walkthough on create templates and websites and operations on websites.
+* So lets make the website visible by mapping a port
+  - Map a port: Go to Websites > vanilla > meta data, scroll down to advanced and open that section, add "80:9001" on the docker ports section, save. 
+  - Back on the vanilla page, go to Advanced > Rebuild from sources. Wait 30 secs. 
+  - Then go to http://192.168.10.130:9001/, replacing 192.168.10.130 with the IP of your docker server. You'll see the drupal front page and can login with user/passwd=admin/admin (the default for the boran/drupal docker image).
+* From the vanilla page (website/advanced/3), experiment with the start/stop/logs commands in the manage menu.
+* In the Advanced menu, checkout the Inspect And Run Command
+* Try Advanced > Rebuild from sources. 
+* Now you've had a basic overview, enjoy the rest. (Feel free to submit a patch with additional doc :-)
 
 
