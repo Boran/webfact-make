@@ -12,7 +12,7 @@ function webfactp_install_tasks() {
 }
 
 function webfactp_set_theme() {
-  $fh = fopen('/tmp/webfactp_set_theme.log' $myFile, 'w');
+  $fh = fopen('/tmp/webfactp_set_theme.log', 'w');
 
   theme_enable(array('bootstrap'));
   $enable = array(
@@ -83,8 +83,7 @@ function webfactp_set_theme() {
   module_enable(array('webfact_content_types'));
 
 
-  watchdog('webfact',"add example templates"); // log does not yet work
-  fwrite($fh, "add example templates"); // how to see output?
+  fwrite($fh, "add example templates"); // try to log output
   $node = new stdClass();
   $node->type = 'template';
   node_object_prepare($node);
@@ -98,10 +97,14 @@ function webfactp_set_theme() {
   fwrite($fh, $node->nid);
   $templateid = $node->nid;
 
+  $node = new stdClass();
+  $node->type = 'template';
+  node_object_prepare($node);
+  $node->uid = 1;
   $node->is_new = 1;
-  node_object_prepare($node);
   $node->title = 'NONE';
-  node_object_prepare($node);
+  $node->language = LANGUAGE_NONE;
+  node_object_prepare($node); // ?
   $node->body[$node->language][0]['value']='Use this template if all docker settings are specified in the website...';
   $node->field_docker_image['und'][0]['value'] = '';
   node_save($node);
@@ -154,6 +157,7 @@ function webfactp_set_theme() {
   fwrite($fh, $node->nid);
   node_save($node);
 
+  fwrite($fh, "\ndone\n");
   fclose($fh);
 }
 
