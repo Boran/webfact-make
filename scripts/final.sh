@@ -17,6 +17,9 @@ cd /var/www/html;
 
 drush -y composer-manager install;
 
+# Setup a default update mechanism
+ln -s sites/all/modules/custom/webfact/webfact_update.sh webfact_update.sh
+
 # Theming
 cp /opt/drush-make/webfact-make/scripts/Factory150.jpg sites/default/files/Factory150.jpg
 cat << EOF | drush vset --format=json theme_settings -
