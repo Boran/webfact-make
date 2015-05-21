@@ -81,7 +81,8 @@ function webfactp_set_theme() {
   module_enable(array('webfact_content_types'));
 
 
-  watchdog('webfact',"add example templates");
+  watchdog('webfact',"add example templates"); // log does not yet work
+  echo "add example templates"; // how to see output?
   $node = new stdClass();
   $node->type = 'template';
   $node->uid = 1;
@@ -95,15 +96,11 @@ function webfactp_set_theme() {
   node_save($node);
   $templateid = $node->nid;
 
-  // add example templates
-  $node = new stdClass();
-  $node->type = 'template';
-  $node->uid = 1;
-  node_object_prepare($node);
   $node->is_new = 1;
+  node_object_prepare($node);
   $node->title = 'NONE';
-  $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='Use this template if all docker settings are specified in the website...';
+  $node->field_docker_image['und'][0]['value'] = '';
   $node = node_submit($node);
   node_save($node);
 
