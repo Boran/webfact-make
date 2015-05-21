@@ -70,9 +70,8 @@ function webfactp_set_theme() {
   node_save($node);
   variable_set('site_frontpage', 'node/1');
 
-
   // other settings
-  variable_set('file_private_path', '/var/lib/drupal-private');
+  variable_set('file_private_path',   '/var/lib/drupal-private');
   variable_set('file_temporary_path', '/tmp');
 
   // disabled unneeded modules
@@ -81,7 +80,7 @@ function webfactp_set_theme() {
   // can enable the feature here, but not in the .info. strange
   module_enable(array('webfact_content_types'));
 
-  // add example templates
+  echo "add example templates";
   $node = new stdClass();
   $node->type = 'template';
   $node->uid = 1;
