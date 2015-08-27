@@ -1,0 +1,70 @@
+#
+# Containers for the webfactory: se the README
+# Requires: docker > 1.8.1
+# 
+
+webfact:
+  container_name: webfact
+  #hostname: webfact.example.ch     # adapt domain
+  hostname: webfact        # adapt
+  #log_driver: "syslog"    # optional
+  #build: .
+  image: boran/drupal
+  mem_limit: 500m     # optional: limit resources
+  #restart: never
+  restart: always
+  ports:
+   - "8000:80"
+   - "8443:443"
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+   - /opt/sites/webfact:/data
+   - /opt/sites:/opt/sites
+  environment:
+   - VIRTUAL_HOST=webfact.example.ch  # adapt domain for nginx
+   - DRUPAL_SITE_NAME=WebFactory
+   - DRUPAL_ADMIN_EMAIL=drupal@example.org # adapt
+   - DRUPAL_SITE_EMAIL=drupal@example.org  # adapt
+   - WEBFACT_BACKUP=yes
+   # Build webfactory withing the container:
+   - DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make
+   - DRUPAL_MAKE_DIR=webfact-make
+   - DRUPAL_INSTALL_PROFILE=webfactp
+   - DRUPAL_FINAL_SCRIPT=/opt/drush-make/webfact-make/scripts/final.sh
+  labels:
+    com.example.description: "Webfactory docker UI"
+    com.example.department: "foo"
+
+nginx:
+  image: nginx
+  container_name: nginx
+  #log_driver: "syslog"    # optional
+  hostname: nginx
+  restart: always
+  ports:
+   - "80:80"
+   - "443:443"
+  volumes:
+  - /opt/sites/nginx:/etc/nginx/conf.d  # adapt
+  - /root/inno-drupal/sslkeys:/etc/nginx/certs  # adapt
+  labels:
+    com.example.description: "Webfactory generic nginx"
+    com.example.department: "foo"
+
+nginx-gen:
+  image: jwilder/docker-gen
+  container_name: nginx-gen
+  #log_driver: "syslog"    # optional
+  hostname: nginx-gen
+  restart: always
+  volumes_from:
+  - nginx
+  volumes:
+  - /var/run/docker.sock:/tmp/docker.sock
+  - /root/inno-drupal/nginx-templates:/etc/docker-gen/templates # adapt
+  - /root/inno-drupal/sslkeys:/etc/nginx/certs  # adapt
+  command: -notify-sighup nginx -only-exposed -watch /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
+  labels:
+    com.example.description: "Webfactory nginx config generator"
+    com.example.department: "foo"
+
