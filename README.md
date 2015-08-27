@@ -30,13 +30,18 @@ port=8020
 # incase you already had a webfact
 docker stop $name; docker rm $name;
 
-docker run -td -p $port:80 -e "VIRTUAL_HOST=$domain" -v /var/run/docker.sock:/var/run/docker.sock -v /opt/sites/$name:/data -v /opt/sites:/opt/sites -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_SCRIPT=/opt/drush-make/webfact-make/scripts/final.sh  -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
+docker run -td -p $port:80 -v /var/run/docker.sock:/var/run/docker.sock -v /opt/sites/$name:/data -v /opt/sites:/opt/sites -e "DRUPAL_SITE_NAME=WebFactory" -e "DRUPAL_ADMIN_EMAIL=$email" -e "DRUPAL_SITE_EMAIL=$email" -e "DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make" -e "DRUPAL_MAKE_DIR=webfact-make" -e DRUPAL_INSTALL_PROFILE=webfactp -e DRUPAL_FINAL_SCRIPT=/opt/drush-make/webfact-make/scripts/final.sh  -e "VIRTUAL_HOST=$domain" --restart=always --hostname $domain --name $name $image
 
 # follow progress
 docker logs -f $name
 ```
 
 Installation done: go to the website page and log on as admin, password=admin and see the configuration section below.
+
+Installation: using docker-compose
+----------------------------------
+The docker-compose install and bring the webfactory contain and also contains a patterns for settings up nginx reverse proxy containers too. See the docker-compose sub directory.
+
 
 Installation: step by step
 ---------------------------
