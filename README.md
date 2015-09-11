@@ -40,7 +40,7 @@ Installation done: go to the website page and log on as admin, password=admin an
 
 Installation: using docker-compose
 ----------------------------------
-The docker-compose install and bring the webfactory contain and also contains a patterns for settings up nginx reverse proxy containers too. See the docker-compose sub directory.
+The docker-compose tool can be used to installer the webfactory container and also contains patterns for settings up nginx reverse proxy containers too. See the docker-compose sub directory.
 
 
 Installation: step by step
