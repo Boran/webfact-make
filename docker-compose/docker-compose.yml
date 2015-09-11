@@ -3,9 +3,20 @@
 # Requires: docker > 1.8.1
 # 
 
+nginx:
+  container_name: nginx-proxy
+  hostname: nginx-proxy        # adapt
+  image: jwilder/nginx-proxy
+  restart: always
+  ports:
+   - "9000:80"
+  volumes:
+   - /var/run/docker.sock:/tmp/docker.sock
+  labels:
+    com.example.description: "Webfactory simple http reverse nginx proxy"
+
 webfact:
   container_name: webfact
-  #hostname: webfact.example.ch     # adapt domain
   hostname: webfact        # adapt
   #log_driver: "syslog"    # optional
   #build: .
@@ -21,7 +32,7 @@ webfact:
    - /opt/sites/webfact:/data
    - /opt/sites:/opt/sites
   environment:
-   - VIRTUAL_HOST=webfact.example.ch  # adapt domain for nginx
+   - VIRTUAL_HOST=webfact.local  # adapt domain for nginx
    - DRUPAL_SITE_NAME=WebFactory
    - DRUPAL_ADMIN_EMAIL=drupal@example.org # adapt
    - DRUPAL_SITE_EMAIL=drupal@example.org  # adapt
@@ -35,21 +46,20 @@ webfact:
     com.example.description: "Webfactory docker UI"
     com.example.department: "foo"
 
-nginx:
-  image: nginx
-  container_name: nginx
-  #log_driver: "syslog"    # optional
-  hostname: nginx
-  restart: always
-  ports:
-   - "80:80"
-   - "443:443"
-  volumes:
-  - /opt/sites/nginx:/etc/nginx/conf.d  # adapt
-  - /root/inno-drupal/sslkeys:/etc/nginx/certs  # adapt
-  labels:
-    com.example.description: "Webfactory generic nginx"
-    com.example.department: "foo"
+##### Advanced: manual config required #####
+#nginx:
+#  image: nginx
+#  container_name: nginx
+#  hostname: nginx
+#  restart: always
+#  ports:
+#   - "80:80"
+#   - "443:443"
+#  volumes:
+#  - /opt/sites/nginx:/etc/nginx/conf.d  # adapt
+#  - /root/inno-drupal/sslkeys:/etc/nginx/certs  # adapt
+#  labels:
+#    com.example.description: "Webfactory generic nginx"
 
 nginx-gen:
   image: jwilder/docker-gen
