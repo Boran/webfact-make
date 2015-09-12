@@ -44,7 +44,7 @@ The docker-compose tool can be used to install the webfactory container.
 
 Installation: Vagrant
 ---------------------
-See the Vagrant file for an automated install of a local VM with docker+webfacory container.
+See the vagrant.md document for an automated install of a local VM with docker+webfacory.
 
 
 Installation: step by step
