@@ -30,7 +30,8 @@ First website
   
 TODO
 ----
-More to come, e.g. using nginx..  
-Also explain how the vagrant file works
-
-
+More to come, 
+* e.g. using simple nginx proxy variant   /etc/hosts
+* Also explain how the vagrant file works
+* document docker composer.
+* Maybe add a jenkins container to docker-compose?
