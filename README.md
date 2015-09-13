@@ -40,7 +40,11 @@ Installation done: go to the website page and log on as admin, password=admin an
 
 Installation: using docker-compose
 ----------------------------------
-The docker-compose tool can be used to installer the webfactory container and also contains patterns for settings up nginx reverse proxy containers too. See the docker-compose sub directory.
+The docker-compose tool can be used to install the webfactory container.
+
+Installation: Vagrant
+---------------------
+See the vagrant.md document for an automated install of a local VM with docker+webfacory.
 
 
 Installation: step by step

@@ -1,6 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Automate installation of a Uuntu VM, with docker+tools and webfact and nginx proxy container.
+# USAGE
+#   Clone the webfact-make rep 
+#   do "vagrant up" and 
+#   connect to http://127.0.0.1:8000 for the Webfactory UI
+
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
