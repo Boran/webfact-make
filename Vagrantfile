@@ -96,16 +96,17 @@ Vagrant.configure(2) do |config|
      docker ps
 
      echo "---- permissions -----"
-     sudo mkdir -p /opt/sites/nginx /opt/sites/webfact
+     sudo mkdir -p /opt/sites/nginx /opt/sites/webfact/www /opt/sites/webfact/data
      sudo chown -R www-data /opt/sites /var/run/docker.sock
 
-      echo "---- Install webfactory container via docker-compose  -----"
-      cd /webfact-docker-compose/
-      sudo docker-compose up -d webfact
-      sudo docker-compose up -d nginx-proxy
+     echo "---- Install webfactory container via docker-compose  -----"
+     cd /webfact-docker-compose/
+     sudo docker-compose up -d webfact
+     #sudo docker-compose up -d nginx
 
-     echo "---- provisioning done Webfact UI: http://127.0.0.1:8000  -----"
-     echo "For nginx, add webfact.local as an alias to 127.0.0.1 in /etc/hosts, then connect to http://webfact.local:9000"
+     echo "---- provisioning done `date +%Y%m%d` ----- "
+     echo "  Webfact UI: http://localhost:8000 "
+     #echo "  For nginx reverse proxy, add webfact.local as an alias to 127.0.0.1 in /etc/hosts, then connect to http://webfact.local:9000"
   SHELL
 
 end

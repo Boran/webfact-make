@@ -51,6 +51,13 @@ echo "update block set status=0 where module='search' and theme='webfact_theme'"
 # Assume not for development
 drush -y dis devel
 
+# Defaults for test/dev envs
+drush vset webfact_msglevel3 0
+drush vset webfact_data_volume 0
+drush vset webfact_www_volume 0
+drush vset webfact_fserver webfact.local
+drush vset webfact_dserver unix:///var/run/docker.sock
+
 # clear caches
 drush -y cache-clear drush
 
