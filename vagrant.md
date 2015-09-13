@@ -3,8 +3,8 @@ Automate webfactory installation via Vagrant
 Introduction
 ------------
 
-The Vagrantfile allows automated installation of a Uuntu VM 14.04, with docker, docker-compose from which webfact containers can be run.
-Requirements: Vagrant + a provider such as virtualbox, outgoing internetz connectivity.
+The Vagrantfile allows automated installation of a Ubuntu VM 14.04 with docker, docker-compose and from which webfact containers can be run.
+Requirements: Vagrant + a provider such as virtualbox, outgoing internet connectivity.
 
 Initial install
 ---------------
@@ -13,7 +13,7 @@ Initial install
 * Install:
   vagrant up
 * connect to for the Webfactory UI , login as admin/admin
-  http://127.0.0.1:8000 
+  http://localhost:8000 
 
 First website
 * Add a new test website 
@@ -22,16 +22,16 @@ First website
   template=plain drupal7 (default)
   advanced > docker ports = 80:8001
   "save"
-* Create the montainer
+* Create the container
   Manage > Create
 * Visit the new website
-  http://127.0.0.1:8000  
+  http://localhost:8000  
   
   
 TODO
 ----
 More to come, 
-* e.g. using simple nginx proxy variant   /etc/hosts
+* e.g. using simple nginx proxy variant  with *.local DNS wildcard using dnsmasq
 * Also explain how the vagrant file works
 * document docker composer.
-* Maybe add a jenkins container to docker-compose?
+* Maybe add a jenkins build container to docker-compose?
