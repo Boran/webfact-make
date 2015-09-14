@@ -26,7 +26,7 @@ First website
 * Create the container
   Manage > Create
 * Visit the new website
-  http://localhost:8000  
+  http://localhost:8001  
   
 Notes: Wild card Dns (on mac)
 ---------------------
