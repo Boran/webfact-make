@@ -31,8 +31,8 @@ webfact:
    - /var/run/docker.sock:/var/run/docker.sock
    - /opt/sites:/opt/sites
      # Persistence of webfact container
-   - /opt/sites/webfact/www:/var/www/www
-   - /opt/sites/webfact/data:/data
+   #- /opt/sites/webfact/www:/var/www/www
+   #- /opt/sites/webfact/data:/data
   environment:
    - VIRTUAL_HOST=webfact.local  # used by nginx-proxy routing
    - DRUPAL_SITE_NAME=WebFactory
