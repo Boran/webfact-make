@@ -13,14 +13,8 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://atlas.hashicorp.com/search.
+  # See also https://docs.vagrantup.com.
   config.vm.box = "hashicorp/precise64"
-
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -32,6 +26,7 @@ Vagrant.configure(2) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   # Forward 6 ports for the Webfactory UI and 5 containers:
+  config.vm.network "forwarded_port", guest: 8443, host: 8443
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 8001, host: 8001
   config.vm.network "forwarded_port", guest: 8002, host: 8002
@@ -55,8 +50,8 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  # Make docker compose available with the Vm
-  config.vm.synced_folder "./docker-compose", "/webfact-docker-compose"
+  # When working on the Drupal image:
+  #config.vm.synced_folder "../docker-drupal", "/docker-drupal"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -107,12 +102,12 @@ Vagrant.configure(2) do |config|
      sudo chown -R www-data /opt/sites /var/run/docker.sock
 
      echo "---- Install webfactory container via docker-compose  -----"
-     cd /webfact-docker-compose/
+     cd /vagrant/docker-compose/
      sudo docker-compose up -d webfact
      #sudo docker-compose up -d nginx
 
      echo "---- provisioning done `date +%Y%m%d` ----- "
-     echo "  Webfact UI: http://localhost:8000 "
+     echo "  Webfact UI: http://localhost:8000 or https://localhost:8443"
      #echo "  For nginx reverse proxy, add webfact.local as an alias to 127.0.0.1 in /etc/hosts, then connect to http://webfact.local:9000"
   SHELL
 

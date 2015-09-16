@@ -17,7 +17,7 @@ nginx:
 
 webfact:
   container_name: webfact
-  hostname: webfact        # adapt
+  hostname: webfact 
   #log_driver: "syslog"    # optional
   #build: .
   image: boran/drupal
@@ -29,9 +29,10 @@ webfact:
    - "8443:443"
   volumes:
    - /var/run/docker.sock:/var/run/docker.sock
-   #- /opt/sites/webfact/www:/var/www/www
-   - /opt/sites/webfact/data:/data
    - /opt/sites:/opt/sites
+     # Persistence of webfact container
+   - /opt/sites/webfact/www:/var/www/www
+   - /opt/sites/webfact/data:/data
   environment:
    - VIRTUAL_HOST=webfact.local  # used by nginx-proxy routing
    - DRUPAL_SITE_NAME=WebFactory
@@ -43,6 +44,7 @@ webfact:
    - DRUPAL_MAKE_DIR=webfact-make
    - DRUPAL_INSTALL_PROFILE=webfactp
    - DRUPAL_FINAL_SCRIPT=/opt/drush-make/webfact-make/scripts/final.sh
+   - DRUPAL_SSL=yes
   labels:
     com.example.description: "Webfactory docker UI"
 

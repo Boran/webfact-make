@@ -5,6 +5,8 @@ Introduction
 
 The Vagrantfile allows automated installation of a Ubuntu VM 14.04 with docker, docker-compose and from which webfact containers can be run.
 Requirements: Vagrant + a provider such as virtualbox, outgoing internet connectivity.
+Tested on: Mac 10.10, with Virtualbox 4.3.30 and Vagrant 1.7.4
+
 
 Initial install
 ---------------
@@ -13,20 +15,23 @@ Initial install
 * Install:
   vagrant up
 * Wait for 5 minutes, as the docker container is created and installed within the VM. To follow progress connect into the vm with "vagrant ssh" and follow the installation with "docker logs --follow webfact"
-* Connect to the Webfactory UI, login as admin/admin
-  http://localhost:8000 
+* Connect to the Webfactory UI, login as admin/admin to: http://localhost:8000 or https://localhost:8443
 
 First website
-* Add a new test website 
+* There should be one default template for drupal7, and one initial website Vanilla
+* Modify Vanilla so that its port 80 is mapped to port 8001:
+  Select Websites > Vanilla > Meta data:
   title=vanilla  
   hostname=vanilla
-  template=plain drupal7 (default)
+  template=Plain Drupal7 (default)
   advanced > docker ports = 80:8001
   "save"
-* Create the container
+* Create the container:
   Manage > Create
+* Wait 3 minutes as Drupal installs. Follow progress via Manage > Docker Logs.
 * Visit the new website
   http://localhost:8001  
+
   
 Notes: Wild card Dns (on mac)
 ---------------------
