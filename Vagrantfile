@@ -1,24 +1,18 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
+#
 # Automate installation of a Uuntu VM, with docker+tools and webfact and nginx proxy container.
-# USAGE
-#   Clone the webfact-make rep 
-#   do "vagrant up" and 
-#   connect to http://127.0.0.1:8000 for the Webfactory UI
+# USAGE: see vagrant.md
+#
 
-
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
+# The "2" in Vagrant.configure configures the configuration version 
 Vagrant.configure(2) do |config|
+
   # See also https://docs.vagrantup.com.
-  config.vm.box = "hashicorp/precise64"
+  config.vm.box = "ubuntu/trusty64"
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # for development/testing, updates are not crical:
+  # `vagrant box outdated`. 
   config.vm.box_check_update = false
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -36,15 +30,6 @@ Vagrant.configure(2) do |config|
   # For the nginx-proxy
   config.vm.network "forwarded_port", guest: 9000, host: 9000
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
@@ -56,24 +41,12 @@ Vagrant.configure(2) do |config|
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
-  #
   # config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
   #   vb.memory = "1024"
   # end
   #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
-  # such as FTP and Heroku are also available. See the documentation at
-  # https://docs.vagrantup.com/v2/push/atlas.html for more information.
-  # config.push.define "atlas" do |push|
-  #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
-  # end
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
@@ -84,30 +57,32 @@ Vagrant.configure(2) do |config|
   # SHELL
   config.vm.provision "shell", inline: <<-SHELL
      # Install curl, docker, docker-compose:
-     echo "---- install curl  -----"
-     sudo apt-get -yqq install curl
+     echo "---- install curl, extras for aufs  -----"
+     sudo locale-gen UTF-8
+     sudo apt-get update -yq
+     sudo apt-get -yqq install apt-transport-https linux-image-extra-`uname -r` curl
 
      echo "---- install docker-compose -----"
-     curl -L https://github.com/docker/compose/releases/download/1.4.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose
+     curl -sSL https://github.com/docker/compose/releases/download/1.4.0/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose
      sudo mv /tmp/docker-compose /usr/local/bin/docker-compose 
      sudo chmod 755 /usr/local/bin/docker-compose
 
      echo "---- install docker -----"
      curl -sSL https://get.docker.com/ | sh
-     sudo usermod -aG docker vagrant
-     docker ps
+     docker --version
 
      echo "---- permissions -----"
+     sudo usermod -aG docker vagrant
+     sudo usermod -aG docker www-data
      sudo mkdir -p /opt/sites/nginx /opt/sites/webfact/www /opt/sites/webfact/data
      sudo chown -R www-data /opt/sites /var/run/docker.sock
 
-     echo "---- Install webfactory container via docker-compose  -----"
+     #echo "---- Install webfactory container via docker-compose  -----"
      cd /vagrant/docker-compose/
      sudo docker-compose up -d webfact
      #sudo docker-compose up -d nginx
-
      echo "---- provisioning done `date +%Y%m%d` ----- "
-     echo "  Webfact UI: http://localhost:8000 or https://localhost:8443"
+     echo "     Connect to the  Webfact UI in 2-3 minutes: http://localhost:8000 or https://localhost:8443"
      #echo "  For nginx reverse proxy, add webfact.local as an alias to 127.0.0.1 in /etc/hosts, then connect to http://webfact.local:9000"
   SHELL
 
