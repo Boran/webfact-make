@@ -52,11 +52,14 @@ echo "update block set status=0 where module='search' and theme='webfact_theme'"
 drush -y dis devel
 
 # Defaults for test/dev envs
-drush vset webfact_msglevel3 0
-drush vset webfact_data_volume 0
-drush vset webfact_www_volume 0
+# todo: set these as docker environment variables
+drush vset webfact_msglevel2 1
+drush vset webfact_msglevel3 1
 drush vset webfact_fserver webfact.local
 drush vset webfact_dserver unix:///var/run/docker.sock
+# Dont use docker volume for data persistence
+drush vset webfact_data_volume 0
+drush vset webfact_www_volume 0
 
 # clear caches
 drush -y cache-clear drush
