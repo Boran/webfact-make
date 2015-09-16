@@ -65,7 +65,11 @@ drush vset webfact_www_volume 0
 drush -y cache-clear drush
 
 # Ensure webui can access docker socket
-chown www-data /var/run/docker.sock;
+sudo chown www-data /var/run/docker.sock;
+sudo usermod -aG docker www-data
+echo "sudo usermod -aG docker www-data" > /custom.sh
+chmod 755 /custom.sh
+
 
 # Git settings
 git config --global push.default matching
