@@ -38,15 +38,16 @@ Vagrant.configure(2) do |config|
   # When working on the Drupal image:
   #config.vm.synced_folder "../docker-drupal", "/docker-drupal"
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #   vb.memory = "1024"
-  # end
-  #
+  # Provider-specific configuration for VirtualBox
+  # https://docs.vagrantup.com/v2/virtualbox/configuration.html
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "webfact-vm"
+    # Display the VirtualBox GUI when booting the machine
+    #vb.gui = true
+    #vb.memory = "1024"
+    #vb.cpus = 2
+    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+  end
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
@@ -56,6 +57,8 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
   config.vm.provision "shell", inline: <<-SHELL
+     sudo hostname webfact-vm
+     sudo echo webfact-vm > /etc/hostname
      # Install curl, docker, docker-compose:
      echo "---- install curl, extras for aufs  -----"
      sudo locale-gen UTF-8
@@ -76,8 +79,10 @@ Vagrant.configure(2) do |config|
      sudo usermod -aG docker www-data
      sudo mkdir -p /opt/sites/nginx /opt/sites/webfact/www /opt/sites/webfact/data
      sudo chown -R www-data /opt/sites /var/run/docker.sock
+     echo "---- environment -----"
+     sudo git config --global push.default matching
 
-     #echo "---- Install webfactory container via docker-compose  -----"
+     echo "---- Install webfactory container via docker-compose  -----"
      cd /vagrant/docker-compose/
      sudo docker-compose up -d webfact
      #sudo docker-compose up -d nginx
