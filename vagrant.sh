@@ -38,6 +38,7 @@ fi
 restart docker
 docker --version
 
+echo "--------------------------"
 echo "---- permissions -----"
 mkdir -p /opt/sites/nginx /opt/sites/webfact/www /opt/sites/webfact/data
 chown -R www-data /opt/sites /var/run/docker.sock
@@ -49,7 +50,6 @@ echo "---- Set VM name to webfact-vm --"
 sudo hostname webfact-vm
 echo webfact-vm > /etc/hostname
 
-echo "--------------------------"
 echo "---- Install webfactory container via docker-compose  -----"
 cd /vagrant/docker-compose/
 docker-compose up -d webfact

@@ -20,12 +20,12 @@ Vagrant.configure(2) do |config|
   # http://tmatilai.github.io/vagrant-proxyconf/
   # updates /etc/profile.d/proxy.sh /etc/environment 
   # can override: VAGRANT_HTTP_PROXY="http://proxy.example.com:8080" vagrant up
-  if Vagrant.has_plugin?("vagrant-proxyconf")
-    config.proxy.http     = "http://proxy.example.ch:80/"
-    config.proxy.https    = "http://proxy.example.ch:80/"
-    #config.proxy.ftp      = "http://proxy.example.ch:80/"
-    config.proxy.no_proxy = "localhost,127.0.0.1"
-  end
+  #if Vagrant.has_plugin?("vagrant-proxyconf")
+  #  config.proxy.http     = "http://proxy.example.ch:80/"
+  #  config.proxy.https    = "http://proxy.example.ch:80/"
+  #  #config.proxy.ftp      = "http://proxy.example.ch:80/"
+  #  config.proxy.no_proxy = "localhost,127.0.0.1"
+  #end
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
