@@ -11,7 +11,12 @@ You need:
   Some Drupal contrib modules and the Bootstrap theme.
 
 
-Installation: quickie using a drush makefile and the boran/drupal image
+Installation: Vagrant
+---------------------
+See the vagrant.md document for an automated install of a local VM with docker+webfacory.
+
+
+Installation: using a drush makefile and the boran/drupal image
 -----------------------------------------------------------------------
 We assume you have docker installed (see docker.md) and know how to use it.
 
@@ -41,10 +46,6 @@ Installation done: go to the website page and log on as admin, password=admin an
 Installation: using docker-compose
 ----------------------------------
 The docker-compose tool can be used to install the webfactory container.
-
-Installation: Vagrant
----------------------
-See the vagrant.md document for an automated install of a local VM with docker+webfacory.
 
 
 Installation: step by step
@@ -140,8 +141,6 @@ Next steps:
   - the Administrator role should have all rights on the Website/Template content types and Webfactory UI.
 
 Optional configuration: 
-* Theme
-  admin/structure/block : disable the navigation + drupal blocks (should be done by the final.sh script)
 * Webfactory
   - admin/structure/block: enable the myWebsites into the content zone, only for the listed pages 'user', 'user/*'
   - node/add: add more templates 

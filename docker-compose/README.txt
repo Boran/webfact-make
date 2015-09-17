@@ -3,6 +3,8 @@ Example docker-compose file to create containers usually need for the Webfactory
 Requires: docker > 1.8
 Status: alpha
 
+See automated variant in vagrand.md.
+
 Using
 -----
 First, install a (Ubuntu) VM with docker, docker-compose, clone this repo https://github.com/Boran/webfact-make.git.
@@ -26,7 +28,6 @@ Notes
 TODO
 ----
 prio 1
-- Vagrant example
 - Simple reverse proxy (no SSL)
 - more testing
 
