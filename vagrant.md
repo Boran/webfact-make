@@ -75,6 +75,7 @@ Notes: Wild card Dns (on mac)
   
 TODO
 ----
+* proxies: the Install of the Vm, docket+tools works, but not yet the automated install of the webfact container. Running the docer compüoser by hadn after works fine.
 * explain how the vagrant file works (ports mapped, etc.)
 * document docker composer usage
 * Add a boran/jenkins build container to docker-compose?
