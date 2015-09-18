@@ -51,7 +51,7 @@ Note: outgoing proxies
 If your network needs outgoing proxies, enable and adapt the proxy lines in Vagrantfile and docker-compose/docker-compose.yml
 
   
-Notes: Wild card Dns (on mac)
+nginx reverse proxy + Wild card Dns (on mac)
 ---------------------
 * Install dnsmasq (via macports)
 * Add /opt/local/etc/dnsmasq.conf
@@ -88,9 +88,9 @@ TODO
 ----
 Prio #1
 
-* dns wilcard+nginx-proxy: Dnsmasq and dns routing working fine on OSX 10.10, e.g. ping x.webfact.docker resolves to localhost. However the web browser does not respect this resolution and lookups up foreign dns server, not dnsmasq locally.
+* Dns wildcard+nginx-proxy: Dnsmasq and dns routing work fine on OSX 10.10, e.g. ping x.webfact.docker resolves to localhost. However the web browser does not respect this resolution and lookups up foreign dns server, not dnsmasq locally. The nginx container does not receive any packets.
 
-* proxies: the Install of the Vm, docket+tools works, but not yet the automated install of the webfact container. Running the docker composer by hadn after works fine.
+* Proxies: the Install of the Vm, docker+tools works, but not the automated install of the webfact container. Running the "docker composer -d webfact" by hand within the vm "vagrat ssh" works fine. This is not a problem without proxies.
 
 Prio #2
 
