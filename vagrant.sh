@@ -53,8 +53,10 @@ echo webfact-vm > /etc/hostname
 echo "---- Install webfactory container via docker-compose  -----"
 cd /vagrant/docker-compose/
 docker-compose up -d webfact
-#docker-compose up -d nginx
+docker-compose up -d nginx
 echo "---- provisioning done `date +%Y%m%d` ----- "
-echo "     Connect to the  Webfact UI in 2-3 minutes: http://localhost:8000 or https://localhost:8443"
-#echo "  For nginx reverse proxy, add webfact.local as an alias to 127.0.0.1 in /etc/hosts, then connect to http://webfact.local:9000"
+echo "  Connect to the  Webfact UI in 2-3 minutes: "
+echo "    http://localhost:8000 or https://localhost:8443"
+echo "  For nginx reverse proxy, configure DNS as noted in vagrant.md and then connect to "
+echo "    http://webfact.docker"
 

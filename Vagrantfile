@@ -28,10 +28,8 @@ Vagrant.configure(2) do |config|
   #end
 
   # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-  # Forward 6 ports for the Webfactory UI and 5 containers:
+  # within the machine from a port on the host machine. 
+  # Forward the Webfactory UI and 5 containers:
   config.vm.network "forwarded_port", guest: 8443, host: 8443
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 8001, host: 8001
@@ -39,8 +37,8 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8003, host: 8003
   config.vm.network "forwarded_port", guest: 8004, host: 8004
   config.vm.network "forwarded_port", guest: 8005, host: 8005
-  # For the nginx-proxy
-  config.vm.network "forwarded_port", guest: 9000, host: 9000
+  # For the nginx-proxy, try to grab the default http port 80
+  config.vm.network "forwarded_port", guest: 80, host: 80
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is

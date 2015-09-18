@@ -53,29 +53,37 @@ Notes: Wild card Dns (on mac)
 ---------------------
 * Install dnsmasq (via macports)
 * Add /opt/local/etc/dnsmasq.conf
-  address=/webfact.local/127.0.0.1
-  address=/.local/127.0.0.1
-* Add dnsmasq as a resolver for *.local
+  address=/.docker/127.0.0.1
+  killall dnsmasq
+* Add dnsmasq as a resolver for *.docker
   mkdir -v /etc/resolver
-  echo "nameserver 127.0.0.1" > /etc/resolver/local
+  echo "nameserver 127.0.0.1" > /etc/resolver/docker
+  sudo killall mDNSResponder
 * check DNS 
   scutil --dns
   ...resolver #8
-    domain   : local
+    domain   : docker
     nameserver[0] : 127.0.0.1
-  nslookup webfact.local
+  nslookup webfact.docker
 
 * Start nginx container
   docker-compose up -d nginx
 * Connect to the Webfactory UI routed though nginx:
-  http://webfact.local:9000
+  http://webfact.docker
 * Connect to the Webfactory subsite "vanilla" routed though nginx:
-  http://VANALLA.webfact.local:9000
+  http://VANILLA.webfact.docker
 
   
 TODO
 ----
-* proxies: the Install of the Vm, docket+tools works, but not yet the automated install of the webfact container. Running the docer compüoser by hadn after works fine.
+Prio #1
+
+* dns wilcard+nginx-proxy: Dnsmasq and dns routing working fine on OSX 10.10, e.g. ping x.webfact.docker resolves to localhost. However the web browser does not respect this resolution and lookups up foreign dns server, not dnsmasq locally.
+
+* proxies: the Install of the Vm, docket+tools works, but not yet the automated install of the webfact container. Running the docker composer by hadn after works fine.
+
+Prio #2
+
 * explain how the vagrant file works (ports mapped, etc.)
 * document docker composer usage
 * Add a boran/jenkins build container to docker-compose?
