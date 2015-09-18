@@ -51,12 +51,13 @@ echo "update block set status=0 where module='search' and theme='webfact_theme'"
 # Assume not for development
 drush -y dis devel
 
-# Defaults for test/dev envs
+# Defaults for local envs (as installed ba vagrant)
 # todo: set these as docker environment variables
 drush vset webfact_msglevel2 1
 drush vset webfact_msglevel3 1
-drush vset webfact_fserver webfact.local
+drush vset webfact_fserver webfact.docker
 drush vset webfact_dserver unix:///var/run/docker.sock
+drush vset webfact_rproxy nginx-proxy
 # Dont use docker volume for data persistence
 drush vset webfact_data_volume 0
 drush vset webfact_www_volume 0
@@ -67,8 +68,9 @@ drush -y cache-clear drush
 # Ensure webui can access docker socket
 sudo chown www-data /var/run/docker.sock;
 sudo usermod -aG docker www-data
-echo "sudo usermod -aG docker www-data" > /custom.sh
-chmod 755 /custom.sh
+# todo: needed?
+#echo "sudo usermod -aG docker www-data" > /custom.sh
+#chmod 755 /custom.sh
 
 
 # Git settings
