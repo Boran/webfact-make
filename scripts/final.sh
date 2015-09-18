@@ -61,6 +61,8 @@ drush vset webfact_rproxy nginx-proxy
 # Dont use docker volume for data persistence
 drush vset webfact_data_volume 0
 drush vset webfact_www_volume 0
+# Disable automatic image backups
+drush vset webfact_rebuild_backups 0
 
 # clear caches
 drush -y cache-clear drush
