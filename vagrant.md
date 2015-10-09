@@ -81,10 +81,13 @@ nginx reverse proxy + Wild card Dns (on mac)
   ping foo.webfact.docker
 ```  
   
-* Start nginx container
+* Start nginx containers 
 ```
-  docker-compose up -d nginx
+cd docker-compose
+docker-compose up -d nginx nginx-gen
 ```
+
+(Next bit not yet working, see TODO below)
 * Connect to the Webfactory UI routed though nginx:
   http://webfact.docker
 * Connect to the Webfactory subsite "vanilla" routed though nginx:
@@ -97,11 +100,12 @@ Prio #1
 
 * Dns wildcard+nginx-proxy: Dnsmasq and dns routing work fine on OSX 10.10, e.g. ping x.webfact.docker resolves to localhost. However the web browser does not respect this resolution and lookups up foreign dns server, not dnsmasq locally. The nginx container does not receive any packets.
 
-* Proxies: the Install of the Vm, docker+tools works, but not the automated install of the webfact container. Running the "docker composer -d webfact" by hand within the vm "vagrat ssh" works fine. This is not a problem without proxies.
+* Proxies: the Install of the Vm, docker+tools works, but not the automated install of the webfact container. Running the "docker composer -d webfact" by hand within the vm "vagrant ssh" works fine. This is not a problem without proxies.
 
 Prio #2
 
 * explain how the vagrant file works (ports mapped, etc.)
 * document docker composer usage
 * Add a boran/jenkins & cibuild container to docker-compose?
+* nginx: add some certs, get https working.
 

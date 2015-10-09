@@ -40,8 +40,13 @@ docker --version
 
 echo "--------------------------"
 echo "---- permissions -----"
-mkdir -p /opt/sites/nginx /opt/sites/webfact/www /opt/sites/webfact/data
+mkdir -p /opt/sites/webfact/www /opt/sites/webfact/data
 chown -R www-data /opt/sites /var/run/docker.sock
+mkdir -p /opt/sites/nginx/conf /opt/sites/nginx/certs
+mkdir -p /opt/sites/nginx-gen/templates
+
+echo "-- download default nginx-gen temlate --"
+(cd /opt/sites/nginx-gen/templates && curl -o nginx.tmpl https://raw.githubusercontent.com/jwilder/docker-gen/master/templates/nginx.tmpl)
 
 echo "---- environment -----"
 locale-gen UTF-8
