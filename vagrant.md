@@ -72,8 +72,11 @@ nginx reverse proxy + Wild card Dns (on mac)
     domain   : docker
     nameserver[0] : 127.0.0.1
     
-  nslookup webfact.docker
-  nslookup foo.webfact.docker
+  # check dnsmasq resolution
+  nslookup webfact.docker localhost
+  nslookup foo.webfact.docker localhost
+  ping webfact.docker
+  ping foo.webfact.docker
 ```  
   
 * Start nginx container
