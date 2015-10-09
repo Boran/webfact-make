@@ -54,7 +54,7 @@ Vagrant.configure(2) do |config|
     vb.name = "webfact-vm"
     # Display the VirtualBox GUI when booting the machine
     #vb.gui = true
-    #vb.memory = "1024"
+    vb.memory = "1024"
     #vb.cpus = 2
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
   end
