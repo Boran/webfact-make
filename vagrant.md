@@ -56,7 +56,9 @@ nginx reverse proxy + Wild card Dns (on mac)
 * Install dnsmasq (via macports)
 * Add /opt/local/etc/dnsmasq.conf
 ```
-  address=/docker/127.0.0.1
+  vi /opt/local/etc/dnsmasq.conf
+      address=/docker/127.0.0.1
+  # reload:    
   sudo killall dnsmasq
 ```
 * Add dnsmasq as a resolver for *.docker
