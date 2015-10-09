@@ -96,5 +96,5 @@ Prio #2
 
 * explain how the vagrant file works (ports mapped, etc.)
 * document docker composer usage
-* Add a boran/jenkins build container to docker-compose?
+* Add a boran/jenkins & cibuild container to docker-compose?
 
