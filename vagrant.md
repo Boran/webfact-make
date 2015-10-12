@@ -51,8 +51,10 @@ Note: outgoing proxies
 If your network needs outgoing proxies, enable and adapt the proxy lines in Vagrantfile and docker-compose/docker-compose.yml
 
   
-nginx reverse proxy + Wild card Dns (on mac)
----------------------
+nginx reverse proxy + Wild card Dns
+-----------------------------------
+The following procedure in for a Mac (10.10). Both DNS and port mapping are setup within the OS.
+
 * Install dnsmasq (via macports)
 * Add /opt/local/etc/dnsmasq.conf
 ```
@@ -81,16 +83,24 @@ nginx reverse proxy + Wild card Dns (on mac)
   ping foo.webfact.docker
 ```  
   
+* Install the vagrant plugin to allow firewall (pf) control
+```  
+vagrant plugin install vagrant-triggers 
+
+# and enable the firewall
+sudo pf enable
+```  
+
+
 * Start nginx containers 
 ```
 cd docker-compose
 docker-compose up -d nginx nginx-gen
 ```
 
-(Next bit not yet working, see TODO below)
-* Connect to the Webfactory UI routed though nginx:
+* Connect to the Webfactory UI routed though pf, vagrant, nginx:
   http://webfact.docker
-* Connect to the Webfactory subsite "vanilla" routed though nginx:
+* Connect to the Webfactory subsite "vanilla" routed to the container with VIRTUAL_HOST=vanilla
   http://VANILLA.webfact.docker
 
   
@@ -98,14 +108,13 @@ TODO
 ----
 Prio #1
 
-* Dns wildcard+nginx-proxy: Dnsmasq and dns routing work fine on OSX 10.10, e.g. ping x.webfact.docker resolves to localhost. However the web browser does not respect this resolution and lookups up foreign dns server, not dnsmasq locally. The nginx container does not receive any packets.
-
 * Proxies: the Install of the Vm, docker+tools works, but not the automated install of the webfact container. Running the "docker composer -d webfact" by hand within the vm "vagrant ssh" works fine. This is not a problem without proxies.
 
 Prio #2
 
-* explain how the vagrant file works (ports mapped, etc.)
+* explain more how the vagrant file works (ports mapped, etc.)
 * document docker composer usage
 * Add a boran/jenkins & cibuild container to docker-compose?
-* nginx: add some certs, get https working.
+* nginx: add some certs, https example.
+
 

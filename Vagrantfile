@@ -30,15 +30,34 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. 
   # Forward the Webfactory UI and 5 containers:
-  config.vm.network "forwarded_port", guest: 8443, host: 8443
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 8001, host: 8001
   config.vm.network "forwarded_port", guest: 8002, host: 8002
   config.vm.network "forwarded_port", guest: 8003, host: 8003
   config.vm.network "forwarded_port", guest: 8004, host: 8004
   config.vm.network "forwarded_port", guest: 8005, host: 8005
-  # For the nginx-proxy, try to grab the default http port 80
-  config.vm.network "forwarded_port", guest: 80, host: 80
+
+  # For the nginx-proxy, try to grab the default http port 80/443
+  #config.vm.network "forwarded_port", guest: 80, host: 8080
+  #config.vm.network "forwarded_port", guest: 443, host: 8443
+  # MAC: Vagrant cannot fwd ports below 1024 (unix limitation)
+  # (for Mac 10.10, see http://salvatore.garbesi.com/vagrant-port-forwarding-on-mac/)
+  # so, map 8080,8443 in vagrant
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8443, host: 8443
+  # then portmap 80 > 8080, 443->8443
+  config.trigger.after [:provision, :up, :reload] do
+      system('echo "
+rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 80 -> 127.0.0.1 port 8080  
+rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 443 -> 127.0.0.1 port 8443  
+" | sudo pfctl -f - > /dev/null 2>&1; echo "==> Fowarding Ports: 80 -> 8080, 443 -> 8443"')  
+  end
+  # to list active mapping: sudo pfctl -sn
+
+  # remove port fwd when not needed
+  config.trigger.after [:halt, :destroy] do
+    system("sudo pfctl -f /etc/pf.conf > /dev/null 2>&1; echo '==> Removing Port Forwarding'")
+  end
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is

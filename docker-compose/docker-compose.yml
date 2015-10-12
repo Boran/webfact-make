@@ -14,7 +14,7 @@ webfact:
   restart: always
   ports:
    - "8000:80"
-   - "8443:443"
+  # - "8443:443"
   volumes:
    - /var/run/docker.sock:/var/run/docker.sock
    - /opt/sites:/opt/sites
@@ -49,8 +49,12 @@ nginx:
   hostname: nginx
   restart: always
   ports:
-   - "80:80"
-   - "443:443"
+  # local mac with portmapping:
+   - "8080:80"
+  # - "8443:443"
+  # server:           # adapt
+  # - "80:80"
+  # - "443:443"
   volumes:
   - /opt/sites/nginx/conf:/etc/nginx/conf.d  # adapt
   - /opt/sites/nginx/certs:/etc/nginx/certs  # adapt
