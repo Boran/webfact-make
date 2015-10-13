@@ -88,9 +88,13 @@ The following procedure in for a Mac (10.10). Both DNS and port mapping are setu
 vagrant plugin install vagrant-triggers 
 
 # and enable the firewall
-sudo pf enable
-```  
+sudo pfctl -e
 
+# Optional; look at firewall status:  
+sudo pfctl -s all
+# NAT rules: 
+sudo pfctl -s nat
+```  
 
 * Start nginx containers 
 ```
@@ -109,6 +113,7 @@ TODO
 Prio #1
 
 * Proxies: the Install of the Vm, docker+tools works, but not the automated install of the webfact container. Running the "docker composer -d webfact" by hand within the vm "vagrant ssh" works fine. This is not a problem without proxies.
+* Browser proxy: does not allow access to http://webfact.docker (Fine without proxies)
 
 Prio #2
 

@@ -40,8 +40,10 @@ Vagrant.configure(2) do |config|
   # For the nginx-proxy, try to grab the default http port 80/443
   #config.vm.network "forwarded_port", guest: 80, host: 8080
   #config.vm.network "forwarded_port", guest: 443, host: 8443
+  #
   # MAC: Vagrant cannot fwd ports below 1024 (unix limitation)
-  # (for Mac 10.10, see http://salvatore.garbesi.com/vagrant-port-forwarding-on-mac/)
+  #   for Mac 10.10, see http://salvatore.garbesi.com/vagrant-port-forwarding-on-mac/
+  #   and https://github.com/emyl/vagrant-triggers
   # so, map 8080,8443 in vagrant
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 8443, host: 8443
@@ -52,12 +54,15 @@ rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 80 -> 127.0.0.1 port 8
 rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 443 -> 127.0.0.1 port 8443  
 " | sudo pfctl -f - > /dev/null 2>&1; echo "==> Fowarding Ports: 80 -> 8080, 443 -> 8443"')  
   end
-  # to list active mapping: sudo pfctl -sn
+  # Look at firewall status:  sudo pfctl -s all
+  # NAT rules: sudo pfctl -s nat
+  # Switch on pf: sudo pfctl -e
 
   # remove port fwd when not needed
   config.trigger.after [:halt, :destroy] do
     system("sudo pfctl -f /etc/pf.conf > /dev/null 2>&1; echo '==> Removing Port Forwarding'")
   end
+
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
