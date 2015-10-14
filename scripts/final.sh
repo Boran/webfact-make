@@ -69,6 +69,9 @@ drush vset webfact_manage_db_host mysql
 drush vset webfact_manage_db_user webfact_create
 #drush vset webfact_manage_db_pw SOMEPASS
 
+# TODO: import the mysql stored procedures
+env
+
 # clear caches
 drush -y cache-clear drush
 

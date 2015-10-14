@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
   #  config.proxy.http     = "http://proxy.example.ch:80/"
   #  config.proxy.https    = "http://proxy.example.ch:80/"
   #  #config.proxy.ftp      = "http://proxy.example.ch:80/"
-  #  config.proxy.no_proxy = "localhost,127.0.0.1"
+  #  config.proxy.no_proxy = "localhost,127.0.0.1,.docker,webfact.docker"
   #end
 
   # Create a forwarded port mapping which allows access to a specific port
