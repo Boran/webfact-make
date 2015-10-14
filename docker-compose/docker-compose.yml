@@ -18,6 +18,9 @@ mysql:
    - /opt/sites/mysql/data:/data
   environment:
    - MYSQL_ROOT_PASSWORD=my-secret-pw     # adapt
+   - MYSQL_DATABASE=d_webfact
+   - MYSQL_USER=u_webfact 
+   - MYSQL_PASSWORD=Aingo6xaingi  # sync with webfact above
 
 webfact:
   labels:
@@ -34,9 +37,12 @@ webfact:
    - /var/run/docker.sock:/var/run/docker.sock
    - /opt/sites:/opt/sites
    # Local development: Persistence of webfact container not needed
-   #- /opt/sites/webfact/www:/var/www/www
-   #- /opt/sites/webfact/data:/data
+   - /opt/sites/webfact/www:/var/www/www
+   - /opt/sites/webfact/data:/data
   environment:
+   - MYSQL_DATABASE=d_webfact
+   - MYSQL_USER=u_webfact 
+   - MYSQL_PASSWORD=Aingo6xaingi  # sync with mysql above
    - VIRTUAL_HOST=webfact.docker  # used by nginx-proxy routing
    - DRUPAL_SITE_NAME=WebFactory
    - DRUPAL_ADMIN_EMAIL=drupal@webfact.docker # adapt
@@ -46,6 +52,7 @@ webfact:
    - DRUPAL_MAKE_DIR=webfact-make
    - DRUPAL_INSTALL_PROFILE=webfactp
    - DRUPAL_FINAL_SCRIPT=/opt/drush-make/webfact-make/scripts/final.sh
+
 
 ##### Advanced: reverse proxy for port to container mapping #####
 nginx:
@@ -77,7 +84,7 @@ nginx-gen:
   - nginx
   volumes:
   - /var/run/docker.sock:/tmp/docker.sock:ro
-  - /opt/sites/nginx-gen/templates:/etc/docker-gen/templates # adapt
+  - /opt/sites/nginx-gen/templates:/etc/docker-gen/templates 
   command: -notify-sighup nginx -watch -only-exposed /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
 
 
@@ -94,6 +101,7 @@ nginx-gen:
    # Webfact: optional SSL, will also need ports: - "8443:443"
    #- DRUPAL_SSL=yes
    #- WEBFACT_BACKUP=no
+   #- DRUPAL_DEBUG=true                    # troubleshooting drupal install
 
 
 

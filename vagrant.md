@@ -28,13 +28,13 @@ cd webfact-make
 vagrant up
 ```
 
-* Wait for 5 minutes, as the containers are created and installed within the VM. To follow progress connect into the vm with "vagrant ssh" and follow the installation with "docker logs --follow webfact"
+* Wait for many minutes, as firts the VM is created, docker+tools installed and finally the containers are created within the VM. To follow container creation progress once VM is running, connect into the vm with "vagrant ssh" and follow the installation with "docker logs --follow webfact"
 
 * Connect to the Webfactory UI, login as admin/admin to: http://localhost:8000 
 
 First website
 
-* There should be one default template for drupal7, and one initial website Vanilla
+* There should be one default template for Drupal7 and one initial website Vanilla
 
 * Modify Vanilla so that its port 80 is mapped to port 8001:
 ```
@@ -136,6 +136,10 @@ NOTES
 -----
 
 Proxies: if you network requires outgoing access via a proxy, the vagrant-proxyconf is needed. See also http://tmatilai.github.io/vagrant-proxyconf. It updates /etc/profile.d/proxy.sh /etc/environment and can be activated via command line too, e.g. VAGRANT_HTTP_PROXY="http://proxy.example.com:8080" vagrant up
+
+
+Passwords: The mysql root, u_webfact and webfact_create passwords are in clear text in the docker-compose file, they should be changed. They are also visible as docker environemnt variables for the relevant containers. 
+The default login of drupal websites created is admin/admin, which can also be changed via docker env variables.
 
 
 Mac: port forwarding of port 80/443: Vagrant cannot fwd ports below 1024 (unix limitation). For a solution on Mac 10.10, see http://salvatore.garbesi.com/vagrant-port-forwarding-on-mac  and https://github.com/emyl/vagrant-triggers. Port 80 on the MAC is mapped to 8080 within the VM then 8080 within the VM is passed onto the nginx container.
