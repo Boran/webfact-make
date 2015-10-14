@@ -132,3 +132,24 @@ Prio #2
 * nginx: add some certs, https example.
 
 
+NOTES
+-----
+
+Proxies: if you network requires outgoing access via a proxy, the vagrant-proxyconf is needed. See also http://tmatilai.github.io/vagrant-proxyconf. It updates /etc/profile.d/proxy.sh /etc/environment and can be activated via command line too, e.g. VAGRANT_HTTP_PROXY="http://proxy.example.com:8080" vagrant up
+
+
+Mac: port forwarding of port 80/443: Vagrant cannot fwd ports below 1024 (unix limitation). For a solution on Mac 10.10, see http://salvatore.garbesi.com/vagrant-port-forwarding-on-mac  and https://github.com/emyl/vagrant-triggers. Port 80 on the MAC is mapped to 8080 within the VM then 8080 within the VM is passed onto the nginx container.
+
+Changing the firewall requires sudo rights, so vagrant up will request a password.
+If port 80 is not needed and you are happy using http://localhost:8000 to access the webfact UI, either do not install the vagrant-triggers plugin or comment out the lines enclused in vagrant-triggers in the Vagrantfile.
+
+Firewall troubleshooting, MAC 10.10:
+```
+# Switch on pf: 
+sudo pfctl -e
+# Look at firewall status:  
+sudo pfctl -s all
+# NAT rules: 
+sudo pfctl -s nat
+```
+
