@@ -44,6 +44,7 @@ mkdir -p /opt/sites/webfact/www /opt/sites/webfact/data
 chown -R www-data /opt/sites /var/run/docker.sock
 mkdir -p /opt/sites/nginx/conf /opt/sites/nginx/certs
 mkdir -p /opt/sites/nginx-gen/templates
+mkdir -p /opt/sites/mysql/data
 
 echo "-- download default nginx-gen temlate --"
 (cd /opt/sites/nginx-gen/templates && curl -o nginx.tmpl https://raw.githubusercontent.com/jwilder/docker-gen/master/templates/nginx.tmpl)
@@ -55,13 +56,17 @@ echo "---- Set VM name to webfact-vm --"
 sudo hostname webfact-vm
 echo webfact-vm > /etc/hostname
 
-echo "---- Install webfactory container via docker-compose  -----"
+echo "---- Install webfactory containers via docker-compose  -----"
 cd /vagrant/docker-compose/
+echo " -- mysql container --"
+docker-compose up -d mysql
+echo " -- webfact drupal based UI container --"
 docker-compose up -d webfact
-docker-compose up -d nginx
+echo "Optional: docker-compose up -d nginx"
+echo "Optional: docker-compose up -d nginx-gen"
 echo "---- provisioning done `date +%Y%m%d` ----- "
 echo "  Connect to the  Webfact UI in 2-3 minutes: "
-echo "    http://localhost:8000 or https://localhost:8443"
+echo "    http://localhost:8000 "
 echo "  For nginx reverse proxy, configure DNS as noted in vagrant.md and then connect to "
 echo "    http://webfact.docker"
 

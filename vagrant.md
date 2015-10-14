@@ -3,25 +3,34 @@ Automate webfactory installation via Vagrant
 Introduction
 ------------
 
-The Vagrantfile allows automated installation of a Ubuntu VM 14.04 with docker, docker-compose and from which webfact containers can be run.
+The Vagrantfile allows automated installation of a Webfactory environment: Ubuntu VM 14.04 with docker, docker-compose and 4 containers: mysql, webfact and optionally nginx and nginx-gen. It is design for a test enviroment on a local Laptop, but serves also as a pattern for a server side installation.
 
-Requirements: Vagrant + a provider such as virtualbox, outgoing internet connectivity.
+Requirements: Vagrant +2 plugins + a provider such as virtualbox, outgoing internet connectivity.
 Tested on: Mac 10.10, with Virtualbox 4.3.30 and Vagrant 1.7.4
 
 
 Initial install
 ---------------
 
-* Install Virtualbox and Vagrant.
+* Install Virtualbox, Vagrant
+* Install vagrant plugins
+```
+# needed if proxies used, local NAT: see Vagrantfile
+vagrant plugin install vagrant-proxyconf
+vagrant plugin install vagrant-triggers
+vagrant global-status
+```
 
-* Clone the webfact-make repository and change to that directory
+* Clone the webfact-make repository, change to that directory and install via vagrant
+```
+git clone https://github.com/Boran/webfact-make.git
+cd webfact-make
+vagrant up
+```
 
-* Install:
-  vagrant up
+* Wait for 5 minutes, as the containers are created and installed within the VM. To follow progress connect into the vm with "vagrant ssh" and follow the installation with "docker logs --follow webfact"
 
-* Wait for 5 minutes, as the docker container is created and installed within the VM. To follow progress connect into the vm with "vagrant ssh" and follow the installation with "docker logs --follow webfact"
-
-* Connect to the Webfactory UI, login as admin/admin to: http://localhost:8000 or https://localhost:8443
+* Connect to the Webfactory UI, login as admin/admin to: http://localhost:8000 
 
 First website
 

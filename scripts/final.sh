@@ -51,18 +51,23 @@ echo "update block set status=0 where module='search' and theme='webfact_theme'"
 # Assume not for development
 drush -y dis devel
 
-# Defaults for local envs (as installed ba vagrant)
+# Defaults as installed by vagrant
 # todo: set these as docker environment variables
 drush vset webfact_msglevel2 1
 drush vset webfact_msglevel3 1
 drush vset webfact_fserver webfact.docker
 drush vset webfact_dserver unix:///var/run/docker.sock
-drush vset webfact_rproxy nginx-proxy
-# Dont use docker volume for data persistence
-drush vset webfact_data_volume 0
-drush vset webfact_www_volume 0
+drush vset webfact_rproxy nginx
+# Use docker volume for data persistence
+drush vset webfact_data_volume 1
+drush vset webfact_www_volume 1
 # Disable automatic image backups
 drush vset webfact_rebuild_backups 0
+# external DB
+drush vset webfact_manage_db 0
+drush vset webfact_manage_db_host mysql
+drush vset webfact_manage_db_user webfact_create
+#drush vset webfact_manage_db_pw SOMEPASS
 
 # clear caches
 drush -y cache-clear drush
@@ -73,7 +78,6 @@ sudo usermod -aG docker www-data
 # todo: needed?
 #echo "sudo usermod -aG docker www-data" > /custom.sh
 #chmod 755 /custom.sh
-
 
 # Git settings
 git config --global push.default matching
