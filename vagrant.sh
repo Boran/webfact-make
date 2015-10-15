@@ -48,10 +48,9 @@ dpkg-reconfigure locales
 echo "--- Timezone Europe/Zurich "
 timedatectl set-timezone Europe/Zurich
 
-#echo "---- Set VM name to webfact-vm --"
-#sudo hostname webfact-vm
-#echo webfact-vm > /etc/hostname
 
+# todo: if proxies are enabled, they have not yet been recognised by docker, so image download will fail 
+#       Workaround: connect with vagrant ssh and run the docker-compose lines manually
 echo "---- Install webfactory containers via docker-compose  -----"
 cd /vagrant/docker-compose/
 echo " -- mysql container --"
