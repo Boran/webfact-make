@@ -65,18 +65,16 @@ drush vset webfact_www_volume 1
 drush vset webfact_rebuild_backups 0
 
 # external DB
+echo "Add sql stored procedures"
 ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
-(cd /webfact && mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < external_db/ext_db.sql)
+(cd /webfact && mysql -uroot -p$MYSQL_ROOT_PASSWORD mysql < external_db/ext_db.sql)
 
 drush vset webfact_manage_db 1
 drush vset webfact_manage_db_host mysql
 drush vset webfact_manage_db_user webfact_create
-# TODO: import the mysql stored procedures
-# parameter!
 drush vset webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
-env | grep PAS
 
-
+echo "For vanilla test website: create /opt/sites/vanilla"
 sudo mkdir -p /opt/sites/vanilla/www /opt/sites/vanilla/data
 sudo chown -R www-data /opt/sites/vanilla
 
