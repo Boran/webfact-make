@@ -18,12 +18,12 @@ Vagrant.configure(2) do |config|
   config.vm.box_check_update = false
 
   # Proxies: 
-  #if Vagrant.has_plugin?("vagrant-proxyconf")
-  #  config.proxy.http     = "http://proxy.example.ch:80/"
-  #  config.proxy.https    = "http://proxy.example.ch:80/"
-  #  #config.proxy.ftp      = "http://proxy.example.ch:80/"
-  #  config.proxy.no_proxy = "localhost,127.0.0.1,.docker,webfact.docker"
-  #end
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http     = "http://proxy.vptt.ch:80/"
+    config.proxy.https    = "http://proxy.vptt.ch:80/"
+    #config.proxy.ftp      = "http://proxy.example.ch:80/"
+    config.proxy.no_proxy = "localhost,127.0.0.1,.docker,webfact.docker"
+  end
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. 

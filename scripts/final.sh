@@ -63,14 +63,23 @@ drush vset webfact_data_volume 1
 drush vset webfact_www_volume 1
 # Disable automatic image backups
 drush vset webfact_rebuild_backups 0
+
 # external DB
-drush vset webfact_manage_db 0
+ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
+(cd /webfact && mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < external_db/ext_db.sql)
+
+drush vset webfact_manage_db 1
 drush vset webfact_manage_db_host mysql
 drush vset webfact_manage_db_user webfact_create
-#drush vset webfact_manage_db_pw SOMEPASS
-
 # TODO: import the mysql stored procedures
-env
+# parameter!
+drush vset webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
+env | grep PAS
+
+
+sudo mkdir -p /opt/sites/vanilla/www /opt/sites/vanilla/data
+sudo chown -R www-data /opt/sites/vanilla
+
 
 # clear caches
 drush -y cache-clear drush
@@ -78,9 +87,6 @@ drush -y cache-clear drush
 # Ensure webui can access docker socket
 sudo chown www-data /var/run/docker.sock;
 sudo usermod -aG docker www-data
-# todo: needed?
-#echo "sudo usermod -aG docker www-data" > /custom.sh
-#chmod 755 /custom.sh
 
 # Git settings
 git config --global push.default matching
