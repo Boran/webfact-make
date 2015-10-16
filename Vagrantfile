@@ -18,11 +18,14 @@ Vagrant.configure(2) do |config|
   config.vm.box_check_update = false
 
   # Proxies: 
-  if Vagrant.has_plugin?("vagrant-proxyconf")
-    config.proxy.http     = "http://proxy.vptt.ch:80/"
-    config.proxy.https    = "http://proxy.vptt.ch:80/"
-    #config.proxy.ftp      = "http://proxy.example.ch:80/"
-    config.proxy.no_proxy = "localhost,127.0.0.1,.docker,webfact.docker"
+  if ENV['http_proxy'] and Vagrant.has_plugin?("vagrant-proxyconf") 
+    config.proxy.http     = ENV.fetch('http_proxy')
+    if ENV['https_proxy']
+      config.proxy.https    = ENV.fetch('https_proxy')
+    end
+    if ENV['no_proxy']
+      config.proxy.no_proxy = ENV.fetch('no_proxy')
+    end
   end
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -35,41 +38,48 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8004, host: 8004
   config.vm.network "forwarded_port", guest: 8005, host: 8005
 
-  # For the nginx reverse proxy, try to grab the default http port 80/443
+
+  # Option: use a reverse proxy to access websites by name and not by port number
+  # so first, map 8080,8443 in vagrant (for nginx proxy)
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8443, host: 8443
+
+  # Option above: grab the default http port 80/443
   # MAC: Vagrant cannot fwd ports below 1024 (unix limitation)
   #   for Mac 10.10, see http://salvatore.garbesi.com/vagrant-port-forwarding-on-mac/
   #   and https://github.com/emyl/vagrant-triggers
-  # so first, map 8080,8443 in vagrant
-  config.vm.network "forwarded_port", guest: 8080, host: 8080
-  config.vm.network "forwarded_port", guest: 8443, host: 8443
-  # then portmap 80 > 8080, 443->8443
-  if Vagrant.has_plugin?("vagrant-triggers")
-    config.trigger.after [:provision, :up, :reload] do
-      system('echo "
-rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 80 -> 127.0.0.1 port 8080  
-rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 443 -> 127.0.0.1 port 8443  
-" | sudo pfctl -f - > /dev/null 2>&1; echo "==> Fowarding Ports: 80 -> 8080, 443 -> 8443"')  
-    end
+  # so portmap 80 > 8080, 443->8443
+  # >> uncomment he ffoling standza for mac 10.10, if you wish to bind to port 80
+  #if Vagrant.has_plugin?("vagrant-triggers")
+  #  config.trigger.after [:provision, :up, :reload] do
+  #    system('echo "
+#rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 80 -> 127.0.0.1 port 8080  
+#rdr pass on lo0 inet proto tcp from any to 127.0.0.1 port 443 -> 127.0.0.1 port 8443  
+#" | sudo pfctl -f - > /dev/null 2>&1; echo "==> Fowarding Ports: host 80 -> host 8080, 443 -> 8443"')  
+  #  end
 
-    # remove port fwd when not needed
-    config.trigger.after [:halt, :destroy] do
-      system("sudo pfctl -f /etc/pf.conf > /dev/null 2>&1; echo '==> Removing Port Forwarding'")
-    end
-  end
+  #  # remove port fwd when not needed
+  #  config.trigger.after [:halt, :destroy] do
+  #    system("sudo pfctl -f /etc/pf.conf > /dev/null 2>&1; echo '==> Removing Port Forwarding'")
+  #  end
+  #end
 
   # Provider-specific configuration for VirtualBox
   config.vm.provider "virtualbox" do |vb|
-    # Setting teh hostname can be useful
-    #vb.name = "webfact-vm"
-    # Increase these resources for many containers
+    # Increase these resources if many containers
     vb.memory = "1024"
     #vb.cpus = 2
     # do not allow the VM to hog too many resources
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    # Setting the hostname can be useful
+    #vb.name = "webfact-vm"
   end
 
   # Run provisioning script
   config.vm.provision "shell", path: "vagrant.sh"
+
+  # Create containers
+  config.vm.provision "shell", inline: "cd /vagrant/docker-compose && docker-compose up -d mysql webfact; echo 'Connect to the  Webfact UI in about 5 minutes http://localhost:8000, or logon with <vagrant ssh> and do <docker logs webfact> to see the progress of the Webfactory installation"
 
 end
 
