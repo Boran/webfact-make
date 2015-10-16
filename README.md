@@ -2,18 +2,18 @@ Webfact-make: Automation for building a Webfactory UI
 
 The Webfactory provides a UI to interface to the Docker API, allowing operations on containers/images. It aims to streamline dev and operations for Drupal websites. See also https://github.com/Boran/webfact
 
-The Webfactory consists of several modules: webfact (main logic), webfact_content_types (features/views), webfact-make (build/install), webfact_theme (styling), webfactapi (optional remote control) and webfactory (deprecated: full site install)
+The Webfactory consists of several modules: webfact (main logic), webfact_content_types (features/views), webfact-make (build/install), webfact_theme (styling), webfactapi (optional remote control).
 
 You need:
-  Docker server (e.g. Ubuntu 14.04) with docker 1.5 or later
-  Container for the webfactory (e.g. the drupal lamp "boran/drupal" container)
+  Docker server (e.g. Ubuntu 14.04) with docker 1.7 or later
+  Container for the webfactory (e.g. the "boran/drupal" container)
   THe webfact modules listed above.
   Some Drupal contrib modules and the Bootstrap theme.
 
 
-Installation: Vagrant
+Installation: Vagrant (easiest)
 ---------------------
-See the vagrant.md document for an automated install of a local VM with docker+webfacory.
+See the vagrant.md document for an automated install of a local VM with docker+webfactory. This is the recommended way to get going initially.
 
 
 Installation: using a drush makefile and the boran/drupal image
@@ -45,7 +45,7 @@ Installation done: go to the website page and log on as admin, password=admin an
 
 Installation: using docker-compose
 ----------------------------------
-The docker-compose tool can be used to install the webfactory container.
+The docker-compose tool can be used to install the webfactory container. It is also used as part of the vagrant automation.
 
 
 Installation: step by step
