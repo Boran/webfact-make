@@ -28,7 +28,7 @@ cd webfact-make
 vagrant up
 ```
 
-* Wait for many minutes, as firts the VM is created, docker+tools installed and finally the containers are created within the VM. To follow container creation progress once VM is running, connect into the vm with "vagrant ssh" and follow the installation with "docker logs --follow webfact"
+* Wait for many minutes, as first the box is downloaded (if needed), the VM is created, docker+tools installed and finally the containers are created within the VM. To follow container creation progress once VM is running, connect into the vm with "vagrant ssh" and follow the installation with "docker logs -f webfact"
 
 * Connect to the Webfactory UI, login as admin/admin to: http://localhost:8000 
 
