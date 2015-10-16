@@ -69,8 +69,10 @@ echo "-- setup external DB "
 drush vset webfact_manage_db 1
 drush vset webfact_manage_db_host mysql
 drush vset webfact_manage_db_user $WEBFACT_MANAGE_DB_USER
-drush vset webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
+drush vset -q webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
 echo "-- create mysql user $WEBFACT_MANAGE_DB_USER"
+echo "select User from users" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
+echo "create user $WEBFACT_MANAGE_DB_USER identified by '$WEBFACT_MANAGE_DB_PW'"
 echo "create user $WEBFACT_MANAGE_DB_USER identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
 echo "-- add sql stored procedures"
 ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
