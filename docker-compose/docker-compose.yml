@@ -54,7 +54,6 @@ webfact:
    - DRUPAL_SITE_EMAIL=drupal@webfact.docker  # adapt
      # Build webfactory within the container:
    - DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make
-   - DRUPAL_MAKE_BRANCH=mysql-container    # XXX
    - DRUPAL_MAKE_DIR=webfact-make
    - DRUPAL_INSTALL_PROFILE=webfactp
    - DRUPAL_FINAL_SCRIPT=/opt/drush-make/webfact-make/scripts/final.sh
