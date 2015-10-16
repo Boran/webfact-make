@@ -3,7 +3,7 @@
 # Final script to run after Drupal has been installed.
 # Do stuff that cannot be done in the makefile or profile.
 
-echo "---- Running scripts/final.sh from webfact-make ----"
+echo "---- Running $1 from webfact-make ----"
 
 cd /var/www/html; 
 echo "-- Install drupal composer and composer-manager modules"
@@ -71,10 +71,10 @@ drush vset webfact_manage_db_host mysql
 drush vset webfact_manage_db_user $WEBFACT_MANAGE_DB_USER
 drush vset webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
 echo "-- create mysql user $WEBFACT_MANAGE_DB_USER"
-echo "create user $WEBFACT_MANAGE_DB_USER identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -hmysql -uroot -p$MYSQL_ROOT_PASSWORD mysql
+echo "create user $WEBFACT_MANAGE_DB_USER identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
 echo "-- add sql stored procedures"
 ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
-(cd /webfact && mysql -hmysql -uroot -p$MYSQL_ROOT_PASSWORD mysql < external_db/ext_db.sql)
+(cd /webfact && mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < external_db/ext_db.sql)
 
 echo "  "
 echo "-- For vanilla test website: create /opt/sites/vanilla"
