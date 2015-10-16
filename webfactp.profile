@@ -100,8 +100,9 @@ function webfactp_set_theme() {
   $node->language = LANGUAGE_NONE;
   $node->body[$node->language][0]['value']='First website container called vanilla using the boran/drupal image from the template Plain Drupal7';
   $node->field_hostname['und'][0]['value'] = 'vanilla';
-  //$node->field_docker_image['und'][0]['value'] = 'boran/drupal';   // could directly specify the image
   $node->field_template['und'][0]['target_id'] = $templateid; // link to template
+  $node->field_docker_ports['und']['value'][] = '80:8001';      // website will be visble on port 8001
+  //$node->field_docker_image['und'][0]['value'] = 'boran/drupal';   // could directly specify the image
   node_save($node);
 
 }
