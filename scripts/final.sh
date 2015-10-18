@@ -65,6 +65,9 @@ drush vset webfact_www_volume 1
 echo "-- Disable automatic image backups"
 drush vset webfact_rebuild_backups 0
 
+# comfort when developing
+ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
+
 echo "-- setup external DB on $MYSQL_HOST"
 drush vset webfact_manage_db 1
 drush vset webfact_manage_db_host mysql
@@ -75,11 +78,9 @@ drush vset -q webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
   #echo "select User from user" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
   echo "create user $WEBFACT_MANAGE_DB_USER@'%' identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
   echo "-- add sql stored procedures"
-  (cd /webfact && mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < external_db/ext_db.sql)
+  (mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < /var/www/html/sites/all/modules/custom/webfact/external_db/ext_db.sql)
 #fi
 
-# comfort when developing
-ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
 
 echo "  "
 echo "-- For vanilla test website: create /opt/sites/vanilla"
