@@ -65,19 +65,21 @@ drush vset webfact_www_volume 1
 echo "-- Disable automatic image backups"
 drush vset webfact_rebuild_backups 0
 
-echo "-- setup external DB "
+echo "-- setup external DB on $MYSQL_HOST"
 drush vset webfact_manage_db 1
 drush vset webfact_manage_db_host mysql
 drush vset webfact_manage_db_user $WEBFACT_MANAGE_DB_USER
 drush vset -q webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
-if [ -z $MYSQL_HOST ] ; then 
+#if [ -z "$MYSQL_HOST" ] ; then 
   echo "-- create mysql user $WEBFACT_MANAGE_DB_USER"
   #echo "select User from user" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
   echo "create user $WEBFACT_MANAGE_DB_USER@'%' identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
   echo "-- add sql stored procedures"
-  ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
   (cd /webfact && mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < external_db/ext_db.sql)
-fi
+#fi
+
+# comfort when developing
+ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
 
 echo "  "
 echo "-- For vanilla test website: create /opt/sites/vanilla"
@@ -89,7 +91,7 @@ drush -y cache-clear drush
 
 echo "-- Ensure webui can access docker socket"
 sudo chown www-data /var/run/docker.sock;
-sudo usermod -aG docker www-data
+#sudo usermod -aG docker www-data
 
 echo "-- git settings"
 git config --global push.default matching
