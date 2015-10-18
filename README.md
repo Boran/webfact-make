@@ -2,18 +2,27 @@ Webfact-make: Automation for building a Webfactory UI
 
 The Webfactory provides a UI to interface to the Docker API, allowing operations on containers/images. It aims to streamline dev and operations for Drupal websites. See also https://github.com/Boran/webfact
 
-The Webfactory consists of several modules: webfact (main logic), webfact_content_types (features/views), webfact-make (build/install), webfact_theme (styling), webfactapi (optional remote control) and webfactory (deprecated: full site install)
+The Webfactory consists of several modules: webfact (main logic), webfact_content_types (features/views), webfact-make (build/install), webfact_theme (styling), webfactapi (optional remote control).
 
 You need:
-  Docker server (e.g. Ubuntu 14.04) with docker 1.5 or later
-  Container for the webfactory (e.g. the drupal lamp "boran/drupal" container)
+  Docker server (e.g. Ubuntu 14.04) with docker 1.7 or later
+  Mysql and drupal container for the webfactory (e.g. the "boran/drupal" container)
   THe webfact modules listed above.
   Some Drupal contrib modules and the Bootstrap theme.
 
 
-Installation: Vagrant
+Installation: Vagrant (easiest)
 ---------------------
-See the vagrant.md document for an automated install of a local VM with docker+webfacory.
+See the vagrant.md document for an automated install of a local VM with docker+webfactory. This is the recommended way to get going.
+
+
+Installation: using docker-compose
+----------------------------------
+We assume you have docker installed (see docker.md) and know how to use it.
+
+The docker-compose tool can be used to install the webfactory container. It is also used as part of the vagrant automation.
+
+
 
 
 Installation: using a drush makefile and the boran/drupal image
@@ -43,9 +52,6 @@ docker logs -f $name
 
 Installation done: go to the website page and log on as admin, password=admin and see the configuration section below.
 
-Installation: using docker-compose
-----------------------------------
-The docker-compose tool can be used to install the webfactory container.
 
 
 Installation: step by step
@@ -158,16 +164,16 @@ Using
 -----
 * Build a first Drupal website: 
   - Go to the websites menu > vanilla > Manage > create.  
-  - It will take maybe 40 seconds and the 'built status' will reach 100. 
+  - It will take about 20 seconds and the 'built status' will reach 100. 
   - Go to Manage > Docker logs to follow progress.
-  - Now, how to visit the new website that has been created? This can be done in several ways, mapping a port on the docker server to the new website, or using an nginx container to automatically map the port.
+  - Now, visit the new website that has been created? If the installation was done via Vagrant, go to http://http://localhost:8001. The website can be reached in several ways, mapping a port on the docker server to the new website, or using an nginx container to automatically map the port.
 * So lets make the website visible by mapping a port
-  - Map a port: Go to Websites > vanilla > meta data, scroll down to advanced and open that section, add "80:9001" on the docker ports section, save. 
+  - For the vanilla example, there is a mapping to poprt 8001. Go to Websites > vanilla > meta data, scroll down to advanced and open that section, see "80:9001" in the docker ports section. 
   - Back on the vanilla page, go to Advanced > Rebuild from sources. Wait 30 secs. 
-  - Then go to http://192.168.10.130:9001/, replacing 192.168.10.130 with the IP of your docker server. You'll see the drupal front page and can login with user/passwd=admin/admin (the default for the boran/drupal docker image).
+  - Then go to http://127.0.0.1:8001/, replacing 127.0.0.1 with the IP of your docker server. You'll see the drupal front page and can login with user/passwd=admin/admin (the default for the boran/drupal docker image).
 * From the vanilla page (website/advanced/3), experiment with the start/stop/logs commands in the manage menu.
-* In the Advanced menu, checkout the Inspect And Run Command
-* Try Advanced > Rebuild from sources. 
+* In the Advanced menu, checkout the Inspect and Run Command
+* Try Advanced > 'Rebuild container', or 'Rebuild, wipe data'
 * Now you've had a basic overview, enjoy the rest. (Feel free to submit a patch with additional doc :-)
 
 

@@ -25,19 +25,21 @@ chmod 755 /usr/local/bin/docker-compose
 echo "---- install docker -----"
 curl -sSL https://get.docker.com/gpg | sudo apt-key add -
 curl -sSL https://get.docker.com/ | sh
-docker --version
 
+echo "--------------------------"
+docker --version
 
 echo "--------------------------"
 echo "---- permissions -----"
 mkdir -p /opt/sites/webfact/www /opt/sites/webfact/data
 chown -R www-data /opt/sites /var/run/docker.sock
-mkdir -p /opt/sites/nginx/conf /opt/sites/nginx/certs
-mkdir -p /opt/sites/nginx-gen/templates
+
 mkdir -p /opt/sites/mysql/data
 
 echo "-- download default nginx-gen temlate --"
-(cd /opt/sites/nginx-gen/templates && curl -o nginx.tmpl https://raw.githubusercontent.com/jwilder/docker-gen/master/templates/nginx.tmpl)
+mkdir -p /opt/sites/nginx/conf /opt/sites/nginx/certs
+mkdir -p /opt/sites/nginx-gen/templates
+(cd /opt/sites/nginx-gen/templates && curl -so nginx.tmpl https://raw.githubusercontent.com/jwilder/docker-gen/master/templates/nginx.tmpl)
 
 
 ## Optional stuff:
@@ -50,18 +52,7 @@ timedatectl set-timezone Europe/Zurich
 
 
 # todo: if proxies are enabled, they have not yet been recognised by docker, so image download will fail 
-#       Workaround: connect with vagrant ssh and run the docker-compose lines manually
-echo "---- Install webfactory containers via docker-compose  -----"
-cd /vagrant/docker-compose/
-echo " -- mysql container --"
-docker-compose up -d mysql
-echo " -- webfact drupal based UI container --"
-docker-compose up -d webfact
-echo "Optional: docker-compose up -d nginx"
-echo "Optional: docker-compose up -d nginx-gen"
-echo "---- provisioning done `date +%Y%m%d` ----- "
-echo "  Connect to the  Webfact UI in 2-3 minutes: "
-echo "    http://localhost:8000 "
-echo "  For nginx reverse proxy, configure DNS as noted in vagrant.md and then connect to "
-echo "    http://webfact.docker"
+#       Workaround: Run docker-compose from Vagrantfile, once this script has been executed.
+
+echo "---- vagrant.sh provisioning done `date +%Y%m%d` ----- "
 

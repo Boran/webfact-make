@@ -18,9 +18,10 @@ mysql:
    - /opt/sites/mysql/data:/data
   environment:
    - MYSQL_ROOT_PASSWORD=my-secret-pw     # adapt
+     # setup a DB for the webfact DB
    - MYSQL_DATABASE=d_webfact
    - MYSQL_USER=u_webfact 
-   - MYSQL_PASSWORD=Aingo6xaingi  # sync with webfact above
+   - MYSQL_PASSWORD=Aingo6xaingi  # sync with webfact below
 
 webfact:
   labels:
@@ -40,18 +41,30 @@ webfact:
    - /opt/sites/webfact/www:/var/www/www
    - /opt/sites/webfact/data:/data
   environment:
+   - MYSQL_HOST=mysql
    - MYSQL_DATABASE=d_webfact
    - MYSQL_USER=u_webfact 
    - MYSQL_PASSWORD=Aingo6xaingi  # sync with mysql above
-   - VIRTUAL_HOST=webfact.docker  # used by nginx-proxy routing
+     # mgt user for creating DBs for websites
+   - WEBFACT_MANAGE_DB_USER=webfact_create
+   - WEBFACT_MANAGE_DB_PW=ho4iaH4o       # adapt
+
    - DRUPAL_SITE_NAME=WebFactory
    - DRUPAL_ADMIN_EMAIL=drupal@webfact.docker # adapt
    - DRUPAL_SITE_EMAIL=drupal@webfact.docker  # adapt
      # Build webfactory within the container:
    - DRUPAL_MAKE_REPO=https://github.com/Boran/webfact-make
+   - DRUPAL_MAKE_BRANCH=master
    - DRUPAL_MAKE_DIR=webfact-make
    - DRUPAL_INSTALL_PROFILE=webfactp
    - DRUPAL_FINAL_SCRIPT=/opt/drush-make/webfact-make/scripts/final.sh
+
+   - VIRTUAL_HOST=webfact.docker  # used by nginx-proxy routing
+
+     # if proxies needed for download during installation
+   #- https_proxy=http://proxy.example.ch:80
+   #- http_proxy=http://proxy.example.ch:80
+   #- no_proxy=localhost,127.0.0.1,.local,.docker
 
 
 ##### Advanced: reverse proxy for port to container mapping #####
@@ -94,10 +107,6 @@ nginx-gen:
   #restart: never
   #environment:
    # Internet access via a proxy?
-   #- https_proxy=http://proxy.example.ch:80
-   #- http_proxy=http://proxy.example.ch:80
-   #- ftp_proxy=http://proxy.example.ch:80
-   #- no_proxy=localhost,127.0.0.1,.local,.docker
    # Webfact: optional SSL, will also need ports: - "8443:443"
    #- DRUPAL_SSL=yes
    #- WEBFACT_BACKUP=no
