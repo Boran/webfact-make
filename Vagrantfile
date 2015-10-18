@@ -79,7 +79,9 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "vagrant.sh"
 
   # Create containers
-  config.vm.provision "shell", inline: "cd /vagrant/docker-compose && docker-compose up -d mysql webfact; echo 'Connect to the  Webfact UI in about 5 minutes http://localhost:8000, or logon with <vagrant ssh> and do <docker logs webfact> to see the progress of the Webfactory installation"
+  config.vm.provision "shell", inline: "cd /vagrant/docker-compose && docker-compose up -d mysql"
+  config.vm.provision "shell", inline: "cd /vagrant/docker-compose && docker-compose up -d webfact"
+  config.vm.provision "shell", inline: "echo 'Connect to the  Webfact UI in about 5 minutes http://localhost:8000, or logon with <vagrant ssh> and do <docker logs webfact> to see the progress of the Webfactory installation' "
 
 end
 
