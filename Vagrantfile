@@ -67,7 +67,7 @@ Vagrant.configure(2) do |config|
   # Provider-specific configuration for VirtualBox
   config.vm.provider "virtualbox" do |vb|
     # Increase these resources if many containers
-    vb.memory = "1024"
+    vb.memory = "2048"
     #vb.cpus = 2
     # do not allow the VM to hog too many resources
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
