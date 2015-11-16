@@ -69,15 +69,15 @@ drush vset webfact_rebuild_backups 0
 ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
 
 # set defaults
-WEBFACT_API=${WEBFACT_API+0};  # set default=0 for Docker API
-WEBFACT_MANAGE_DB_USER=${WEBFACT_MANAGE_DB_USER+webfact_create}; 
-WEBFACT_MANAGE_DB_PW=${WEBFACT_MANAGE_DB_PW+someThingRealllySecreT}; 
+WEBFACT_API=${WEBFACT_API:-0};  # set default=0 for Docker API
+WEBFACT_MANAGE_DB_USER=${WEBFACT_MANAGE_DB_USER:-webfact_create}; 
+WEBFACT_MANAGE_DB_PW=${WEBFACT_MANAGE_DB_PW:-someThingRealllySecreT}; 
 echo "-- setup external DB on host $MYSQL_HOST as $WEBFACT_MANAGE_DB_USER with API type $WEBFACT_API"
 # Run the webfactory DB in a seperate container
 drush vset webfact_manage_db 1
 drush vset webfact_manage_db_user $WEBFACT_MANAGE_DB_USER
 drush vset -q webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
-#MYSQL_HOST=${MYSQL_HOST+mysql};  
+#MYSQL_HOST=${MYSQL_HOST:-mysql};  
 if [ ! -z "${MYSQL_HOST+x}" ] ; then    # if mysql_host set?
   drush vset webfact_manage_db_host $MYSQL_HOST
 fi
