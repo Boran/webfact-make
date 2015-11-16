@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Final script to run after Drupal has been installed.
 # Do stuff that cannot be done in the makefile or profile.
@@ -92,10 +92,10 @@ else
   echo "-- docker API "
   if [ -z "$MYSQL_HOST" ] ; then 
     # db is in a spearet container, premuse mysql root pw is available
-    echo "-- create mysql user $WEBFACT_MANAGE_DB_USER"
+    echo "   create mysql user $WEBFACT_MANAGE_DB_USER"
     #echo "select User from user" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
     echo "create user $WEBFACT_MANAGE_DB_USER@'%' identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
-    echo "-- add sql stored procedures"
+    echo "   add sql stored procedures"
     (mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < /var/www/html/sites/all/modules/custom/webfact/external_db/ext_db.sql)
   fi
 
