@@ -75,6 +75,7 @@ drush vset webfact_manage_db_host $MYSQL_HOST
 drush vset webfact_manage_db_user $WEBFACT_MANAGE_DB_USER
 drush vset -q webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
 
+WEBFACT_API=${WEBFACT_API+0};  # set default=0
 if [ "$WEBFACT_API" == "1" ] ; then 
   echo "****** mesos *****"
   echo "-- Webfact will manage containers via the mesos API, the following steps must be manually done, see https://github.com/Boran/webfact/tree/master/external_db  "
@@ -84,7 +85,7 @@ if [ "$WEBFACT_API" == "1" ] ; then
   echo "   See also http://thisserver/admin/config/development/webfact"
   echo "**************"
 else 
-  # docker API
+  echo "-- docker API "
   if [ -z "$MYSQL_HOST" ] ; then 
     # db is in a spearet container, premuse mysql root pw is available
     echo "-- create mysql user $WEBFACT_MANAGE_DB_USER"
