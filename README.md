@@ -1,6 +1,8 @@
 Webfact-make: Automation for building a Webfactory UI
 
-The Webfactory provides a UI to interface to the Docker API, allowing operations on containers/images. It aims to streamline dev and operations for Drupal websites. See also https://github.com/Boran/webfact
+The Webfactory provides a UI to interface to the Docker API, allowing operations on containers/images. It aims to streamline dev and operations for Drupal websites. See also https://github.com/Boran/webfact.
+
+Containers can also managed on a Mesos cluster via Marathon and bamboo (experimental).
 
 The Webfactory consists of several modules: webfact (main logic), webfact_content_types (features/views), webfact-make (build/install), webfact_theme (styling), webfactapi (optional remote control).
 
@@ -23,6 +25,9 @@ We assume you have docker installed (see docker.md) and know how to use it.
 The docker-compose tool can be used to install the webfactory container. It is also used as part of the vagrant automation.
 
 
+Installation: With Mesos rather than docker
+-------------------------------------------
+The Webfactory can also manage container on a Mesos cluster via Marathon and Bamboo APIs. Set WEBFACT_API=1 when installing the container. Installation via vagrant or docker-compose has not been implemented for this scenario. See [mesos.md in the webfact repo](https://github.com/Boran/webfact/blob/mesos/mesos.md). 
 
 
 Installation: using a drush makefile and the boran/drupal image

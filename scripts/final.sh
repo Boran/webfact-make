@@ -68,31 +68,44 @@ drush vset webfact_rebuild_backups 0
 # comfort when developing
 ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
 
-echo "-- setup external DB on $MYSQL_HOST"
+echo "-- setup external DB on $MYSQL_HOST as $WEBFACT_MANAGE_DB_USER with API type $WEBFACT_API"
+# Run the webfactory DB in a seperate container:
 drush vset webfact_manage_db 1
-drush vset webfact_manage_db_host mysql
+drush vset webfact_manage_db_host $MYSQL_HOST
 drush vset webfact_manage_db_user $WEBFACT_MANAGE_DB_USER
 drush vset -q webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
-#if [ -z "$MYSQL_HOST" ] ; then 
-  echo "-- create mysql user $WEBFACT_MANAGE_DB_USER"
-  #echo "select User from user" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
-  echo "create user $WEBFACT_MANAGE_DB_USER@'%' identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
-  echo "-- add sql stored procedures"
-  (mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < /var/www/html/sites/all/modules/custom/webfact/external_db/ext_db.sql)
-#fi
 
+if [ "$WEBFACT_API" == "1" ] ; then 
+  echo "****** mesos *****"
+  echo "-- Webfact will manage containers via the mesos API, the following steps must be manually done, see https://github.com/Boran/webfact/tree/master/external_db  "
+  echo "   1. Create a user $WEBFACT_MANAGE_DB_USER in the DB "
+  echo "   2. load the stored procedures and grant access."
+  echo "   3. Ensure this webfact container has writeable access to the /opt/sites volume"
+  echo "   See also http://thisserver/admin/config/development/webfact"
+  echo "**************"
+else 
+  # docker API
+  if [ -z "$MYSQL_HOST" ] ; then 
+    # db is in a spearet container, premuse mysql root pw is available
+    echo "-- create mysql user $WEBFACT_MANAGE_DB_USER"
+    #echo "select User from user" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
+    echo "create user $WEBFACT_MANAGE_DB_USER@'%' identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
+    echo "-- add sql stored procedures"
+    (mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < /var/www/html/sites/all/modules/custom/webfact/external_db/ext_db.sql)
+  fi
 
-echo "  "
-echo "-- For vanilla test website: create /opt/sites/vanilla"
-sudo mkdir -p /opt/sites/vanilla/www /opt/sites/vanilla/data
-sudo chown -R www-data /opt/sites/vanilla
+  echo "-- Webfact will manage containers via the Docker API:  "
+  echo "-- For vanilla test website: create /opt/sites/vanilla"
+  sudo mkdir -p /opt/sites/vanilla/www /opt/sites/vanilla/data
+  sudo chown -R www-data /opt/sites/vanilla
+
+  echo "-- Ensure webui can access docker socket"
+  sudo chown www-data /var/run/docker.sock;
+  #sudo usermod -aG docker www-data
+fi
 
 echo "clear caches"
 drush -y cache-clear drush
-
-echo "-- Ensure webui can access docker socket"
-sudo chown www-data /var/run/docker.sock;
-#sudo usermod -aG docker www-data
 
 echo "-- git settings"
 git config --global push.default matching
