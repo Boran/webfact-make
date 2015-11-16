@@ -69,13 +69,17 @@ drush vset webfact_rebuild_backups 0
 ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
 
 echo "-- setup external DB on $MYSQL_HOST as $WEBFACT_MANAGE_DB_USER with API type $WEBFACT_API"
-# Run the webfactory DB in a seperate container:
+# Run the webfactory DB in a seperate container
 drush vset webfact_manage_db 1
+# set defaults
+MYSQL_HOST=${MYSQL_HOST+mysql};  
+WEBFACT_MANAGE_DB_USER=${WEBFACT_MANAGE_DB_USER+webfact_create}; 
+WEBFACT_MANAGE_DB_PW=${WEBFACT_MANAGE_DB_PW+someThingRealllySecreT}; 
 drush vset webfact_manage_db_host $MYSQL_HOST
 drush vset webfact_manage_db_user $WEBFACT_MANAGE_DB_USER
 drush vset -q webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
 
-WEBFACT_API=${WEBFACT_API+0};  # set default=0
+WEBFACT_API=${WEBFACT_API+0};  # set default=0 for Docker API
 if [ "$WEBFACT_API" == "1" ] ; then 
   echo "****** mesos *****"
   echo "-- Webfact will manage containers via the mesos API, the following steps must be manually done, see https://github.com/Boran/webfact/tree/master/external_db  "
@@ -100,7 +104,7 @@ else
   sudo mkdir -p /opt/sites/vanilla/www /opt/sites/vanilla/data
   sudo chown -R www-data /opt/sites/vanilla
 
-  echo "-- Ensure webui can access docker socket"
+  echo "-- Ensure webui can access /var/run/docker.sock"
   sudo chown www-data /var/run/docker.sock;
   #sudo usermod -aG docker www-data
 fi
@@ -110,4 +114,6 @@ drush -y cache-clear drush
 
 echo "-- git settings"
 git config --global push.default matching
+
+echo "---- Done $1 from webfact-make ----"
 
