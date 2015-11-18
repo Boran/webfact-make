@@ -64,11 +64,10 @@ function webfactp_set_theme() {
   $node->status = 1;
   $node->title = 'Welcome';
   $node->path = array('alias' => 'welcome');
-  //$node->promote = 0;
   $node->language = LANGUAGE_NONE;
-  $node->body[$node->language][0]['value']='The webfactory allows creation of micro websites thanks to Docker and Drupal';
+  $node->body[$node->language][0]['value']='The webfactory allows creation of micro websites thanks to Docker and Drupal. Visit /admin/config/development/webfact to configure and /websites for a list of containers.';
   node_save($node);
-  variable_set('site_frontpage', 'node/1');
+  variable_set('site_frontpage', 'node/' . $node->nid);   // front page is the node added above
 
 
   // other settings
@@ -87,7 +86,7 @@ function webfactp_set_theme() {
   $node->uid = 1;
   $node->title = 'Plain Drupal7';
   $node->language = LANGUAGE_NONE;
-  $node->body[$node->language][0]['value']='Vanilla Drupal 7';
+  $node->body[$node->language][0]['value']='Plain Drupal 7';
   $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
   node_save($node);
   $templateid = $node->nid;
@@ -104,6 +103,31 @@ function webfactp_set_theme() {
   $node->field_docker_ports['und'][0]['value'] = '80:8001';        // website will be visble on port 8001. TODO: this value is *not* saved
   //$node->field_docker_image['und'][0]['value'] = 'boran/drupal'; // could directly specify the image
   node_save($node);
+
+  // add a D8 template
+  $node = new stdClass();
+  $node->type = 'template';
+  $node->uid = 1;
+  $node->title = 'Plain Drupal8';
+  $node->language = LANGUAGE_NONE;
+  $node->body[$node->language][0]['value']='Plain Drupal 8';
+  $node->field_docker_image['und'][0]['value'] = 'boran/drupal';
+  $node->field_docker_environment['und'][]['value'] = 'DRUPAL_VERSION=drupal-8';
+  node_save($node);
+  $templateid = $node->nid;
+
+  // add a D8 website
+  $node = new stdClass();
+  $node->type = 'website';
+  $node->uid = 1;
+  $node->title = 'vanilla8';
+  $node->language = LANGUAGE_NONE;
+  $node->body[$node->language][0]['value']='Example website called vanilla8 from the template Plain Drupal8';
+  $node->field_hostname['und'][0]['value'] = 'vanilla8';
+  $node->field_template['und'][0]['target_id'] = $templateid;      // link to template
+  $node->field_docker_ports['und'][0]['value'] = '80:8002';        // website will be visble on port 8001. TODO: this value is *not* saved
+  node_save($node);
+
 
 }
 
