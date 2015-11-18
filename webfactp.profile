@@ -78,8 +78,6 @@ function webfactp_set_theme() {
   variable_set('webfact_fserver', 'webfact.docker');
   variable_set('webfact_dserver', 'unix:///var/run/docker.sock');
   variable_set('webfact_rproxy', 'nginx');
-  variable_set('webfact_data_volume', '1');
-  variable_set('webfact_www_volume', '1');
   variable_set('webfact_rebuild_backups', '0');
 
   // disabled unneeded modules
