@@ -93,12 +93,16 @@ projects[field_group][type] = "module"
 projects[field_group][subdir] = "contrib"
 
 ; to enable template sharing/copying
-projects[uuid][type] = "module"
-projects[uuid][subdir] = "contrib"
-projects[clone][type] = "module"
-projects[clone][subdir] = "contrib"
-projects[node_export][type] = "module"
-projects[node_export][subdir] = "contrib"
+;projects[uuid][type] = "module"
+;projects[uuid][subdir] = "contrib"
+;projects[clone][type] = "module"
+;projects[clone][subdir] = "contrib"
+;projects[node_export][type] = "module"
+;projects[node_export][subdir] = "contrib"
+
+; optional ldap login
+;projects[ldap][type] = "module"
+;projects[ldap][subdir] = "contrib"
 
 projects[composer_manager][type] = "module"
 projects[composer_manager][subdir] = "contrib"
