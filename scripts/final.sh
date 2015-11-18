@@ -91,6 +91,9 @@ if [ "$WEBFACT_API" == "1" ] ; then
 
 else 
   echo "-- Webfact will manage containers via the Docker API:  "
+  echo "-- New containers: create volume dirs for data persistence"
+  drush vset webfact_data_volume 1
+  drush vset webfact_www_volume 1
 
   ## todo: env variables?
   echo "   For vanilla test website: create /opt/sites/vanilla"
