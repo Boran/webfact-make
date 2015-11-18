@@ -50,21 +50,6 @@ echo "update block set status=0 where delta='navigation' and theme='webfact_them
 echo "update block set status=0 where delta='powered-by' and theme='webfact_theme'" | drush sql-cli
 echo "update block set status=0 where module='search' and theme='webfact_theme'" | drush sql-cli
 
-# Assume not for development
-drush -y dis devel
-
-echo "-- set webfact variables"
-drush vset webfact_msglevel2 1
-drush vset webfact_msglevel3 1
-drush vset webfact_fserver webfact.docker
-drush vset webfact_dserver unix:///var/run/docker.sock
-drush vset webfact_rproxy nginx
-echo "-- Use docker volume for data persistence"
-drush vset webfact_data_volume 1
-drush vset webfact_www_volume 1
-echo "-- Disable automatic image backups"
-drush vset webfact_rebuild_backups 0
-
 # comfort when developing
 ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
 ln -s /var/www/html/sites/all/modules/custom/webfact_content_types /webfact_content_types
@@ -73,18 +58,17 @@ ln -s /var/www/html/sites/all/modules/custom/webfact_content_types /webfact_cont
 WEBFACT_API=${WEBFACT_API:-0};  # set default=0 for Docker API
 WEBFACT_MANAGE_DB_USER=${WEBFACT_MANAGE_DB_USER:-webfact_create}; 
 WEBFACT_MANAGE_DB_PW=${WEBFACT_MANAGE_DB_PW:-someThingRealllySecreT}; 
+
 echo "-- setup external DB on host $MYSQL_HOST as $WEBFACT_MANAGE_DB_USER with API type $WEBFACT_API"
 # Run the webfactory DB in a seperate container
 drush vset webfact_manage_db 1
 drush vset webfact_manage_db_user $WEBFACT_MANAGE_DB_USER
 drush vset -q webfact_manage_db_pw $WEBFACT_MANAGE_DB_PW
+
 #MYSQL_HOST=${MYSQL_HOST:-mysql};  
 if [ ! -z "${MYSQL_HOST+x}" ] ; then    # if mysql_host set?
+  echo "  db is in a separate instance called $MYSQL_HOST"
   drush vset webfact_manage_db_host $MYSQL_HOST
-fi
-
-if [ ! -z "${MYSQL_HOST+x}" ] ; then    # if mysql_host set?
-  echo "  db is in a separate iinstance called $MYSQL_HOST"
   if [ ! -z "${MYSQL_ENV_MYSQL_ROOT_PASSWORD+x}" ] ; then
     MYSQL_ENV_MYSQL_ROOT_USER=${MYSQL_ENV_MYSQL_ROOT_USER:-root}; 
     echo "   create mysql user $WEBFACT_MANAGE_DB_USER using $MYSQL_ENV_MYSQL_ROOT_USER"

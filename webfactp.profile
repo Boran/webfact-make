@@ -73,9 +73,17 @@ function webfactp_set_theme() {
   // other settings
   variable_set('file_private_path', '/var/lib/drupal-private');
   variable_set('file_temporary_path', '/tmp');
+  variable_set('webfact_msglevel2', '1');
+  variable_set('webfact_msglevel3', '1');
+  variable_set('webfact_fserver', 'webfact.docker');
+  variable_set('webfact_dserver', 'unix:///var/run/docker.sock');
+  variable_set('webfact_rproxy', 'nginx');
+  variable_set('webfact_data_volume', '1');
+  variable_set('webfact_www_volume', '1');
+  variable_set('webfact_rebuild_backups', '0');
 
   // disabled unneeded modules
-  module_disable(array('rdf', 'color', 'overlay'));
+  module_disable(array('rdf', 'color', 'overlay', 'devel'));
 
   // can enable the feature here, but not in the .info. strange
   module_enable(array('webfact_content_types'));
@@ -127,7 +135,6 @@ function webfactp_set_theme() {
   $node->field_template['und'][0]['target_id'] = $templateid;      // link to template
   $node->field_docker_ports['und'][0]['value'] = '80:8002';        // website will be visble on port 8001. TODO: this value is *not* saved
   node_save($node);
-
 
 }
 
