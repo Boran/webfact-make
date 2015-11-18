@@ -67,6 +67,7 @@ drush vset webfact_rebuild_backups 0
 
 # comfort when developing
 ln -s /var/www/html/sites/all/modules/custom/webfact /webfact
+ln -s /var/www/html/sites/all/modules/custom/webfact_content_types /webfact_content_types
 
 # set defaults
 WEBFACT_API=${WEBFACT_API:-0};  # set default=0 for Docker API
@@ -82,25 +83,32 @@ if [ ! -z "${MYSQL_HOST+x}" ] ; then    # if mysql_host set?
   drush vset webfact_manage_db_host $MYSQL_HOST
 fi
 
+if [ ! -z "${MYSQL_HOST+x}" ] ; then    # if mysql_host set?
+  echo "  db is in a separate iinstance called $MYSQL_HOST"
+  if [ ! -z "${MYSQL_ENV_MYSQL_ROOT_PASSWORD+x}" ] ; then
+    MYSQL_ENV_MYSQL_ROOT_USER=${MYSQL_ENV_MYSQL_ROOT_USER:-root}; 
+    echo "   create mysql user $WEBFACT_MANAGE_DB_USER using $MYSQL_ENV_MYSQL_ROOT_USER"
+    echo "create user $WEBFACT_MANAGE_DB_USER@'%' identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -h$MYSQL_HOST -u$MYSQL_ENV_MYSQL_ROOT_USER -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
+    echo "   add sql stored procedures"
+    (mysql -h$MYSQL_HOST -u$MYSQL_ENV_MYSQL_ROOT_USER -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < /var/www/html/sites/all/modules/custom/webfact/external_db/ext_db.sql)
+
+  else 
+    echo "-- no MYSQL_ENV_MYSQL_ROOT_PASSWORD specified, the following steps must be manually done, see https://github.com/Boran/webfact/tree/master/external_db  "
+    echo "   1. Create a user $WEBFACT_MANAGE_DB_USER in the DB "
+    echo "   2. load the stored procedures and grant access."
+    echo "   3. Ensure this webfact container has writeable access to the /opt/sites volume"
+    echo "   See also http://thisserver/admin/config/development/webfact"
+  fi
+fi
+
 if [ "$WEBFACT_API" == "1" ] ; then 
-  echo "****** mesos *****"
-  echo "-- Webfact will manage containers via the mesos API, the following steps must be manually done, see https://github.com/Boran/webfact/tree/master/external_db  "
-  echo "   1. Create a user $WEBFACT_MANAGE_DB_USER in the DB "
-  echo "   2. load the stored procedures and grant access."
-  echo "   3. Ensure this webfact container has writeable access to the /opt/sites volume"
-  echo "   See also http://thisserver/admin/config/development/webfact"
-  echo "**************"
+  drush vset -q webfact_container_api 1
+  echo "** mesos **"
+
 else 
   echo "-- Webfact will manage containers via the Docker API:  "
-  if [ ! -z "${MYSQL_HOST+x}" ] ; then    # if mysql_host set?
-    echo "  db is in a separate container, presume mysql root pw is available"
-    echo "   create mysql user $WEBFACT_MANAGE_DB_USER"
-    #echo "select User from user" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
-    echo "create user $WEBFACT_MANAGE_DB_USER@'%' identified by '$WEBFACT_MANAGE_DB_PW'" | mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql
-    echo "   add sql stored procedures"
-    (mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD mysql < /var/www/html/sites/all/modules/custom/webfact/external_db/ext_db.sql)
-  fi
 
+  ## todo: env variables?
   echo "   For vanilla test website: create /opt/sites/vanilla"
   sudo mkdir -p /opt/sites/vanilla/www /opt/sites/vanilla/data
   sudo chown -R www-data /opt/sites/vanilla
@@ -114,6 +122,11 @@ drush -y cache-clear drush
 
 echo "-- git settings"
 git config --global push.default matching
+
+# todo: why is this needed?
+mkdir /var/lib/drupal-private 2>/dev/nell
+chown -R www-data /var/lib/drupal-private
+
 
 echo "---- Done $1 from webfact-make ----"
 
